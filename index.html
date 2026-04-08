@@ -61,7 +61,7 @@
             text-decoration: none;
             font-family: 'Neue Montreal', sans-serif;
             font-weight: 400;
-            font-size: 16px;
+            font-size: 12px;
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
@@ -91,7 +91,7 @@
         /* ── Hero / Scrollytelling ── */
         .hero {
             position: relative;
-            height: 600vh; /* scroll runway */
+            height: 1200vh; /* scroll runway */
         }
 
         .hero__sticky {
@@ -136,9 +136,14 @@
             font-family: 'DaVinci', serif;
             font-weight: 400;
             font-style: normal;
-            font-size: 24px;
+            font-size: 21px;
             line-height: 1.5;
             clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+            margin-bottom: 8px;
+        }
+
+        .hero__body:last-child {
+            margin-bottom: 0;
         }
 
         .hero__overlay {
@@ -151,6 +156,315 @@
             opacity: 0;
             pointer-events: none;
         }
+        /* ── Installations section ── */
+        .installations {
+            position: relative;
+            height: 400vh;
+        }
+
+        .installations__sticky {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Left text */
+        .installations__info {
+            width: 40%;
+            padding-left: 80px;
+        }
+
+        .installations__heading {
+            font-family: 'DaVinci', serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 64px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+        }
+
+        .installations__subheading {
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            opacity: 0;
+        }
+
+        .installations__body {
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.75);
+            opacity: 0;
+        }
+
+        /* Cards container */
+        .installations__cards {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 55%;
+            height: 100%;
+        }
+
+        /* Individual glass cards — liquid glass */
+        .glass-card {
+            --tint-color: 255, 255, 255;
+            --tint-opacity: 0.06;
+            --shadow-blur: 20px;
+            --shadow-spread: -5px;
+            --shadow-color: rgba(255, 255, 255, 0.45);
+            --outer-shadow-blur: 24px;
+            --glass-radius: 20px;
+            position: absolute;
+            width: 240px;
+            border-radius: var(--glass-radius);
+            opacity: 0;
+            transform: translateY(30px);
+            cursor: pointer;
+            isolation: isolate;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            box-shadow: 0px 4px var(--outer-shadow-blur) rgba(0, 0, 0, 0.18);
+        }
+
+        /* Inner shadow + tint */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            border-radius: inherit;
+            box-shadow: inset 0 0 var(--shadow-blur) var(--shadow-spread) var(--shadow-color);
+            background-color: rgba(var(--tint-color), var(--tint-opacity));
+            pointer-events: none;
+        }
+
+        /* Backdrop refraction layer */
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border-radius: inherit;
+            backdrop-filter: url(#liquid-glass-filter) blur(0.3px);
+            -webkit-backdrop-filter: url(#liquid-glass-filter) blur(0.3px);
+            isolation: isolate;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0px 8px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card:hover .glass-card__text {
+            transform: translateY(-8px);
+        }
+
+        .glass-card__image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            opacity: 0.85;
+            filter: saturate(0.9);
+        }
+
+        .glass-card__text {
+            position: relative;
+            z-index: 3;
+            padding: 16px 18px;
+            transition: transform 0.4s ease;
+        }
+
+        .glass-card__title {
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .glass-card__subtitle {
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .glass-card__desc {
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 400;
+            font-size: 11px;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.45);
+            margin-top: 10px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.4s ease;
+            opacity: 0;
+        }
+
+        .glass-card:hover .glass-card__desc {
+            max-height: 120px;
+            opacity: 1;
+        }
+
+        /* Card positions — scattered on right */
+        .glass-card--1 { top: 8%; right: 10%; }
+        .glass-card--2 { top: 28%; right: 38%; }
+        .glass-card--3 { top: 52%; right: 8%; }
+        .glass-card--4 { top: 72%; right: 32%; }
+
+        /* ── CTA / Experience section ── */
+        .experience {
+            position: relative;
+            height: 250vh;
+        }
+
+        .experience__sticky {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .experience__card {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            transform: translateY(100vh);
+        }
+
+        .experience__image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            background: #000;
+            display: block;
+        }
+
+        .experience__overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .experience__content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            opacity: 0;
+        }
+
+        .experience__title {
+            font-family: 'DaVinci', serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 72px;
+            text-align: center;
+            margin-bottom: 60px;
+            letter-spacing: 0.04em;
+        }
+
+        .experience__details {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            margin-bottom: auto;
+        }
+
+        .experience__detail {
+            text-align: center;
+        }
+
+        .experience__detail-label {
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .experience__detail-value {
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 400;
+            font-size: 15px;
+            color: #fff;
+        }
+
+        /* Footer area within the card */
+        .experience__footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            padding: 40px 60px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .experience__footer-col {
+            min-width: 140px;
+        }
+
+        .experience__footer-col h4 {
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 400;
+            font-size: 13px;
+            letter-spacing: 0.06em;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .experience__footer-col p,
+        .experience__footer-col a {
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+        }
+
+        .experience__footer-col a:hover {
+            color: #fff;
+        }
+
+        .experience__copyright {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Neue Montreal', sans-serif;
+            font-size: 11px;
+            color: rgba(255,255,255,0.3);
+            opacity: 0;
+        }
+
         /* ── Tablet (768px and below) ── */
         @media (max-width: 768px) {
             .nav {
@@ -179,6 +493,37 @@
 
             .hero__text {
                 width: 88%;
+            }
+
+            .installations__info {
+                padding-left: 32px;
+                width: 38%;
+            }
+
+            .installations__heading {
+                font-size: 44px;
+            }
+
+            .glass-card {
+                width: 190px;
+            }
+
+            .glass-card__image {
+                height: 140px;
+            }
+
+            .experience__title {
+                font-size: 52px;
+            }
+
+            .experience__details {
+                gap: 40px;
+            }
+
+            .experience__footer {
+                padding: 32px 32px 32px;
+                flex-wrap: wrap;
+                gap: 24px;
             }
         }
 
@@ -213,6 +558,68 @@
             .hero__text {
                 width: 92%;
             }
+
+            .installations__sticky {
+                flex-direction: column;
+                justify-content: flex-start;
+                padding-top: 60px;
+            }
+
+            .installations__info {
+                width: 90%;
+                padding-left: 20px;
+                padding-right: 20px;
+                margin-bottom: 32px;
+            }
+
+            .installations__heading {
+                font-size: 36px;
+            }
+
+            .installations__cards {
+                position: relative;
+                width: 100%;
+                height: auto;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                padding: 0 20px;
+            }
+
+            .glass-card {
+                position: relative;
+                top: auto !important;
+                right: auto !important;
+                width: 100%;
+            }
+
+            .glass-card__image {
+                height: 120px;
+            }
+
+            .experience__title {
+                font-size: 32px;
+                margin-bottom: 40px;
+            }
+
+            .experience__details {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .experience__content {
+                padding: 40px 20px;
+            }
+
+            .experience__footer {
+                flex-direction: column;
+                padding: 24px 20px 24px;
+                gap: 20px;
+            }
+
+            .experience__footer-col {
+                min-width: auto;
+            }
         }
     </style>
 </head>
@@ -235,10 +642,116 @@
             <div class="hero__overlay"></div>
             <div class="hero__text">
                 <h1 class="hero__heading">Invisible world</h1>
-                <p class="hero__body">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                <p class="hero__body hero__body--1">As adults, we lose sight of play.</p>
+                <p class="hero__body hero__body--2">The concept becomes almost alien to us, something we outgrew, or so we believe.</p>
+                <p class="hero__body hero__body--3">This exhibition is that hidden world of play, the one we stopped seeing.</p>
+                <p class="hero__body hero__body--4">It exists to remind us that play was never gone, only our perception changed.</p>
+                <p class="hero__body hero__body--5">If we let play back into our lives, we begin to see it everywhere,</p>
+                <p class="hero__body hero__body--6">woven into the ordinary, waiting in the everyday.</p>
             </div>
         </div>
     </section>
+
+    <!-- Installations section -->
+    <section class="installations">
+        <div class="installations__sticky">
+            <div class="installations__info">
+                <h2 class="installations__heading">Surrealist Exhibition</h2>
+                <p class="installations__subheading">Visitor Advisory</p>
+                <p class="installations__body">This exhibition contains surrealist imagery that some viewers may find unsettling, disorienting, or disturbing. Works may include themes of bodily distortion, dreamlike or nightmarish scenarios, psychological tension, and other confronting visual content. Parental discretion is advised for younger visitors. If you have any concerns, please contact us before your visit.</p>
+            </div>
+            <div class="installations__cards">
+                <div class="glass-card glass-card--1">
+                    <img class="glass-card__image" src="assets/images/eye-ver-1.jpg" alt="Omnipresent Optics">
+                    <div class="glass-card__text">
+                        <p class="glass-card__title">Omnipresent Optics</p>
+                        <p class="glass-card__subtitle">Eye Capture</p>
+                        <p class="glass-card__desc">Step softly, for the floor is a stage and the audience is watching from within the machinery of sight.</p>
+                    </div>
+                </div>
+                <div class="glass-card glass-card--2">
+                    <img class="glass-card__image" src="assets/images/eye-ver-1.jpg" alt="Fractured Reverie">
+                    <div class="glass-card__text">
+                        <p class="glass-card__title">Fractured Reverie</p>
+                        <p class="glass-card__subtitle">Dream Fragment</p>
+                        <p class="glass-card__desc">A corridor of mirrors that reflect not your image, but the memories you thought you had forgotten.</p>
+                    </div>
+                </div>
+                <div class="glass-card glass-card--3">
+                    <img class="glass-card__image" src="assets/images/eye-ver-1.jpg" alt="Dissolving Threshold">
+                    <div class="glass-card__text">
+                        <p class="glass-card__title">Dissolving Threshold</p>
+                        <p class="glass-card__subtitle">Liminal Passage</p>
+                        <p class="glass-card__desc">The walls breathe and the doorways lead nowhere and everywhere at once.</p>
+                    </div>
+                </div>
+                <div class="glass-card glass-card--4">
+                    <img class="glass-card__image" src="assets/images/eye-ver-1.jpg" alt="Silent Cacophony">
+                    <div class="glass-card__text">
+                        <p class="glass-card__title">Silent Cacophony</p>
+                        <p class="glass-card__subtitle">Sound Sculpture</p>
+                        <p class="glass-card__desc">An installation where silence is louder than noise, and stillness vibrates with unseen energy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience / CTA section -->
+    <section class="experience">
+        <div class="experience__sticky">
+            <div class="experience__card">
+                <img class="experience__image" src="assets/images/Hand-Blur-Glass.png" alt="Hand behind glass">
+                <div class="experience__overlay"></div>
+                <div class="experience__content">
+                    <h2 class="experience__title">COME EXPERIENCE IT</h2>
+                    <div class="experience__details">
+                        <div class="experience__detail">
+                            <p class="experience__detail-label">Location</p>
+                            <p class="experience__detail-value">Aotea Square | Auckland</p>
+                        </div>
+                        <div class="experience__detail">
+                            <p class="experience__detail-label">Time</p>
+                            <p class="experience__detail-value">18–31 April</p>
+                        </div>
+                        <div class="experience__detail">
+                            <p class="experience__detail-label">Entry</p>
+                            <p class="experience__detail-value">Free</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="experience__footer">
+                    <div class="experience__footer-col">
+                        <h4>Socials</h4>
+                        <p><a href="#">Instagram</a></p>
+                        <p><a href="#">Facebook</a></p>
+                        <p><a href="#">TikTok</a></p>
+                        <p><a href="#">X</a></p>
+                    </div>
+                    <div class="experience__footer-col">
+                        <h4>About</h4>
+                        <p><a href="#">Exhibition space</a></p>
+                        <p><a href="#">Info</a></p>
+                    </div>
+                    <div class="experience__footer-col">
+                        <h4>Address</h4>
+                        <p>Aotea Square<br>50 Mayoral Drive<br>Auckland CBD<br>Auckland 1010<br>New Zealand</p>
+                    </div>
+                    <div class="experience__footer-col">
+                        <h4>Contact</h4>
+                        <p><a href="mailto:support@evanescent.co.nz">support@evanescent.co.nz</a></p>
+                        <p><a href="tel:021-0670-0420">021-0670-0420</a></p>
+                    </div>
+                </div>
+                <p class="experience__copyright">&copy; Made by Hue Knows Studio 2026</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SVG filter for liquid glass -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;overflow:hidden" color-interpolation-filters="sRGB">
+        <defs id="svg-defs"></defs>
+    </svg>
 
     <!-- GSAP & ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -272,26 +785,158 @@
             }
         });
 
-        // Heading reveal — wipe left to right
-        gsap.to(".hero__heading", {
-            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-            ease: "none",
+        // Single timeline for all text: reveal heading → reveal body → pause → unreveal body → unreveal heading
+        const lines = document.querySelectorAll(".hero__body");
+        const textTl = gsap.timeline({
             scrollTrigger: {
                 trigger: ".hero",
                 start: "35% top",
-                end: "50% top",
+                end: "95% top",
                 scrub: 1
             }
         });
 
-        // Body text reveal — wipe left to right, after heading
-        gsap.to(".hero__body", {
+        // 1. Reveal heading
+        textTl.fromTo(".hero__heading",
+            { clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)" },
+            { clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", duration: 10, ease: "none" }
+        );
+
+        // 2. Reveal each body line
+        lines.forEach((line) => {
+            textTl.fromTo(line,
+                { clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)" },
+                { clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", duration: 4, ease: "none" }
+            );
+        });
+
+        // 3. Reading pause
+        textTl.to({}, { duration: 10 });
+
+        // 4. Unreveal body lines in reverse order (quicker)
+        Array.from(lines).reverse().forEach((line) => {
+            textTl.to(line,
+                { clipPath: "polygon(100% 0, 100% 0, 100% 100%, 100% 100%)", duration: 3, ease: "none" }
+            );
+        });
+
+        // 5. Unreveal heading last
+        textTl.to(".hero__heading",
+            { clipPath: "polygon(100% 0, 100% 0, 100% 100%, 100% 100%)", duration: 6, ease: "none" }
+        );
+
+        // ── Installations section ──
+
+        // Cards appear one by one
+        const cards = document.querySelectorAll(".glass-card");
+        cards.forEach((card, i) => {
+            gsap.to(card, {
+                opacity: 1,
+                y: 0,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: ".installations",
+                    start: (5 + i * 8) + "% top",
+                    end: (12 + i * 8) + "% top",
+                    scrub: 1
+                }
+            });
+        });
+
+        // Floating animation for each card
+        cards.forEach((card, i) => {
+            gsap.to(card, {
+                y: "-=12",
+                x: (i % 2 === 0) ? "+=6" : "-=6",
+                duration: 3 + i * 0.5,
+                ease: "sine.inOut",
+                repeat: -1,
+                yoyo: true
+            });
+        });
+
+        // Left text reveal — heading wipe
+        gsap.to(".installations__heading", {
             clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
             ease: "none",
             scrollTrigger: {
-                trigger: ".hero",
-                start: "50% top",
-                end: "65% top",
+                trigger: ".installations",
+                start: "40% top",
+                end: "52% top",
+                scrub: 1
+            }
+        });
+
+        // Left text — subheading fade
+        gsap.to(".installations__subheading", {
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".installations",
+                start: "52% top",
+                end: "58% top",
+                scrub: 1
+            }
+        });
+
+        // Left text — body fade
+        gsap.to(".installations__body", {
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".installations",
+                start: "58% top",
+                end: "66% top",
+                scrub: 1
+            }
+        });
+
+        // ── Experience section ──
+
+        // Card barges in from bottom
+        gsap.to(".experience__card", {
+            y: 0,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".experience",
+                start: "top bottom",
+                end: "25% top",
+                scrub: 1
+            }
+        });
+
+        // Content fades in after card settles
+        gsap.to(".experience__content", {
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".experience",
+                start: "30% top",
+                end: "45% top",
+                scrub: 1
+            }
+        });
+
+        // Footer fades in with content
+        gsap.to(".experience__footer", {
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".experience",
+                start: "30% top",
+                end: "45% top",
+                scrub: 1
+            }
+        });
+
+        // Copyright fades in
+        gsap.to(".experience__copyright", {
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".experience",
+                start: "35% top",
+                end: "45% top",
                 scrub: 1
             }
         });
@@ -307,6 +952,144 @@
                 scrub: 1
             }
         });
+    </script>
+
+    <!-- Liquid glass filter generator (adapted from archisvaze/liquid-glass) -->
+    <script>
+        (function() {
+            const SURFACE_FN = (x) => Math.pow(1 - Math.pow(1 - x, 4), 0.25);
+
+            // Figma params: Refraction 80, Depth 92, Frost 8, Dispersion 45, Splay 100
+            const GLASS_THICKNESS = 80;
+            const BEZEL_WIDTH = 60;
+            const IOR = 3.0;
+            const SCALE_RATIO = 1.0;
+            const BLUR_AMT = 0.3;
+            const SPEC_OPACITY = 0.5;
+            const SPEC_SAT = 4;
+            const RADIUS = 20;
+
+            function calcRefractionProfile(thick, bezel, heightFn, ior, samples) {
+                samples = samples || 128;
+                const eta = 1 / ior;
+                function refract(nx, ny) {
+                    const dot = ny;
+                    const k = 1 - eta * eta * (1 - dot * dot);
+                    if (k < 0) return null;
+                    const sq = Math.sqrt(k);
+                    return [-(eta * dot + sq) * nx, eta - (eta * dot + sq) * ny];
+                }
+                const profile = new Float64Array(samples);
+                for (let i = 0; i < samples; i++) {
+                    const x = i / samples;
+                    const y = heightFn(x);
+                    const dx = x < 1 ? 0.0001 : -0.0001;
+                    const y2 = heightFn(x + dx);
+                    const deriv = (y2 - y) / dx;
+                    const mag = Math.sqrt(deriv * deriv + 1);
+                    const ref = refract(-deriv / mag, -1 / mag);
+                    if (!ref) { profile[i] = 0; continue; }
+                    profile[i] = ref[0] * ((y * bezel + thick) / ref[1]);
+                }
+                return profile;
+            }
+
+            function genDisplacementMap(w, h, r, bezel, profile, maxDisp) {
+                const c = document.createElement('canvas');
+                c.width = w; c.height = h;
+                const ctx = c.getContext('2d');
+                const img = ctx.createImageData(w, h);
+                const d = img.data;
+                for (let i = 0; i < d.length; i += 4) { d[i] = 128; d[i+1] = 128; d[i+2] = 0; d[i+3] = 255; }
+                const rSq = r*r, r1Sq = (r+1)**2, rBSq = Math.max(r - bezel, 0)**2;
+                const wB = w - r*2, hB = h - r*2, S = profile.length;
+                for (let y1 = 0; y1 < h; y1++) {
+                    for (let x1 = 0; x1 < w; x1++) {
+                        const x = x1 < r ? x1 - r : x1 >= w - r ? x1 - r - wB : 0;
+                        const y = y1 < r ? y1 - r : y1 >= h - r ? y1 - r - hB : 0;
+                        const dSq = x*x + y*y;
+                        if (dSq > r1Sq || dSq < rBSq) continue;
+                        const dist = Math.sqrt(dSq);
+                        const fromSide = r - dist;
+                        const op = dSq < rSq ? 1 : 1 - (dist - Math.sqrt(rSq)) / (Math.sqrt(r1Sq) - Math.sqrt(rSq));
+                        if (op <= 0 || dist === 0) continue;
+                        const cos = x / dist, sin = y / dist;
+                        const bi = Math.min(((fromSide / bezel) * S) | 0, S - 1);
+                        const disp = profile[bi] || 0;
+                        const dX = (-cos * disp) / maxDisp, dY = (-sin * disp) / maxDisp;
+                        const idx = (y1 * w + x1) * 4;
+                        d[idx] = (128 + dX * 127 * op + 0.5) | 0;
+                        d[idx+1] = (128 + dY * 127 * op + 0.5) | 0;
+                    }
+                }
+                ctx.putImageData(img, 0, 0);
+                return c.toDataURL();
+            }
+
+            function genSpecularMap(w, h, r, bezel, angle) {
+                angle = angle != null ? angle : Math.PI / 3;
+                const c = document.createElement('canvas');
+                c.width = w; c.height = h;
+                const ctx = c.getContext('2d');
+                const img = ctx.createImageData(w, h);
+                const d = img.data; d.fill(0);
+                const rSq = r*r, r1Sq = (r+1)**2, rBSq = Math.max(r - bezel, 0)**2;
+                const wB = w - r*2, hB = h - r*2;
+                const sv = [Math.cos(angle), Math.sin(angle)];
+                for (let y1 = 0; y1 < h; y1++) {
+                    for (let x1 = 0; x1 < w; x1++) {
+                        const x = x1 < r ? x1 - r : x1 >= w - r ? x1 - r - wB : 0;
+                        const y = y1 < r ? y1 - r : y1 >= h - r ? y1 - r - hB : 0;
+                        const dSq = x*x + y*y;
+                        if (dSq > r1Sq || dSq < rBSq) continue;
+                        const dist = Math.sqrt(dSq);
+                        const fromSide = r - dist;
+                        const op = dSq < rSq ? 1 : 1 - (dist - Math.sqrt(rSq)) / (Math.sqrt(r1Sq) - Math.sqrt(rSq));
+                        if (op <= 0 || dist === 0) continue;
+                        const cos = x / dist, sin = -y / dist;
+                        const dot = Math.abs(cos * sv[0] + sin * sv[1]);
+                        const edge = Math.sqrt(Math.max(0, 1 - (1 - fromSide)**2));
+                        const coeff = dot * edge;
+                        const col = (255 * coeff) | 0;
+                        const alpha = (col * coeff * op) | 0;
+                        const idx = (y1 * w + x1) * 4;
+                        d[idx] = col; d[idx+1] = col; d[idx+2] = col; d[idx+3] = alpha;
+                    }
+                }
+                ctx.putImageData(img, 0, 0);
+                return c.toDataURL();
+            }
+
+            function buildFilter() {
+                const w = 240, h = 320;
+                const clampedBezel = Math.min(BEZEL_WIDTH, RADIUS - 1, Math.min(w, h) / 2 - 1);
+                const profile = calcRefractionProfile(GLASS_THICKNESS, clampedBezel, SURFACE_FN, IOR, 128);
+                const maxDisp = Math.max(...Array.from(profile).map(Math.abs)) || 1;
+                const dispUrl = genDisplacementMap(w, h, RADIUS, clampedBezel, profile, maxDisp);
+                const specUrl = genSpecularMap(w, h, RADIUS, clampedBezel * 2.5);
+                const scale = maxDisp * SCALE_RATIO;
+
+                document.getElementById('svg-defs').innerHTML = `
+                    <filter id="liquid-glass-filter" x="0%" y="0%" width="100%" height="100%">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="${BLUR_AMT}" result="blurred_source" />
+                        <feImage href="${dispUrl}" x="0" y="0" width="${w}" height="${h}" result="disp_map" />
+                        <feDisplacementMap in="blurred_source" in2="disp_map"
+                            scale="${scale}" xChannelSelector="R" yChannelSelector="G"
+                            result="displaced" />
+                        <feColorMatrix in="displaced" type="saturate" values="${SPEC_SAT}" result="displaced_sat" />
+                        <feImage href="${specUrl}" x="0" y="0" width="${w}" height="${h}" result="spec_layer" />
+                        <feComposite in="displaced_sat" in2="spec_layer" operator="in" result="spec_masked" />
+                        <feComponentTransfer in="spec_layer" result="spec_faded">
+                            <feFuncA type="linear" slope="${SPEC_OPACITY}" />
+                        </feComponentTransfer>
+                        <feBlend in="spec_masked" in2="displaced" mode="normal" result="with_sat" />
+                        <feBlend in="spec_faded" in2="with_sat" mode="normal" />
+                    </filter>
+                `;
+            }
+
+            requestAnimationFrame(() => requestAnimationFrame(buildFilter));
+        })();
     </script>
 
 </body>
