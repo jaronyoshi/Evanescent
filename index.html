@@ -353,7 +353,7 @@
             inset: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             object-position: center;
             background: #000;
             display: block;
@@ -373,6 +373,7 @@
             justify-content: center;
             align-items: center;
             padding: 60px 40px;
+            padding-top: 210px;
             opacity: 0;
         }
 
@@ -389,7 +390,7 @@
         .experience__details {
             display: flex;
             justify-content: center;
-            gap: 80px;
+            gap: 200px;
             margin-bottom: auto;
         }
 
@@ -417,13 +418,14 @@
         /* Footer area within the card */
         .experience__footer {
             position: absolute;
-            bottom: 0;
+            bottom: 100px;
             left: 0;
             right: 0;
             opacity: 0;
             padding: 40px 60px 40px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 200px;
             align-items: flex-start;
         }
 
@@ -701,7 +703,7 @@
     <section class="experience">
         <div class="experience__sticky">
             <div class="experience__card">
-                <img class="experience__image" src="assets/images/Hand-Blur-Glass.png" alt="Hand behind glass">
+                <img class="experience__image" src="assets/images/Hand-Blur-Glass-16-9.png" alt="Hand behind glass">
                 <div class="experience__overlay"></div>
                 <div class="experience__content">
                     <h2 class="experience__title">COME EXPERIENCE IT</h2>
