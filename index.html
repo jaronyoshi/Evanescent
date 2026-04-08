@@ -151,6 +151,69 @@
             opacity: 0;
             pointer-events: none;
         }
+        /* ── Tablet (768px and below) ── */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 24px 24px;
+            }
+
+            .nav a {
+                font-size: 13px;
+            }
+
+            .nav__logo img {
+                height: 14px;
+            }
+
+            .nav-gradient {
+                height: 150px;
+            }
+
+            .hero__heading {
+                font-size: 64px;
+            }
+
+            .hero__body {
+                font-size: 20px;
+            }
+
+            .hero__text {
+                width: 88%;
+            }
+        }
+
+        /* ── Mobile (480px and below) ── */
+        @media (max-width: 480px) {
+            .nav {
+                padding: 20px 16px;
+            }
+
+            .nav a {
+                font-size: 11px;
+                letter-spacing: 0.05em;
+            }
+
+            .nav__logo img {
+                height: 12px;
+            }
+
+            .nav-gradient {
+                height: 120px;
+            }
+
+            .hero__heading {
+                font-size: 40px;
+            }
+
+            .hero__body {
+                font-size: 16px;
+                line-height: 1.4;
+            }
+
+            .hero__text {
+                width: 92%;
+            }
+        }
     </style>
 </head>
 <body>
