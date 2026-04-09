@@ -149,6 +149,19 @@
             transform: translateY(-10px);
         }
 
+        .nav-gradient-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+            z-index: 99;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
         /* ── Hero / Scrollytelling ── */
         .hero {
             position: relative;
@@ -725,6 +738,7 @@
 
     <!-- Nav gradient + links -->
     <div class="nav-gradient"></div>
+    <div class="nav-gradient-bottom"></div>
     <nav class="nav">
         <a href="#">EXHIBITION SPACE</a>
         <a href="index.html" class="nav__logo">
@@ -974,7 +988,7 @@
                         blinkTop.remove();
                         blinkBottom.remove();
                         // Nav slides in from top
-                        gsap.to(['.nav', '.nav-gradient'], {
+                        gsap.to(['.nav', '.nav-gradient', '.nav-gradient-bottom'], {
                             opacity: 1,
                             y: 0,
                             duration: 1.2,
@@ -1196,10 +1210,13 @@
             }
         });
 
-        // Fade out the nav + gradient on scroll
-        gsap.to([".nav", ".nav-gradient"], {
+        // Fade out the nav + gradient on scroll (delayed until nav intro finishes)
+        // The nav intro animation sets opacity to 1, so we use .to() but
+        // override the starting point after the intro completes
+        gsap.to([".nav", ".nav-gradient", ".nav-gradient-bottom"], {
             opacity: 0,
             ease: "none",
+            immediateRender: false,
             scrollTrigger: {
                 trigger: ".hero",
                 start: "top top",
