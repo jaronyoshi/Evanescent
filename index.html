@@ -427,7 +427,7 @@
         /* ── CTA / Experience section ── */
         .experience {
             position: relative;
-            height: 220vh;
+            height: 125vh;
         }
 
         .experience__sticky {
@@ -459,9 +459,7 @@
         }
 
         .experience__overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.3);
+            display: none;
         }
 
         .experience__content {
@@ -469,32 +467,34 @@
             inset: 0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             padding: 60px 40px;
             padding-top: 210px;
             opacity: 0;
+            transform: translateY(15px);
+            gap: 120px;
         }
 
         .experience__title {
             font-family: 'DaVinci', serif;
-            font-style: italic;
+            font-style: normal;
             font-weight: 400;
             font-size: 72px;
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 0;
             letter-spacing: 0.04em;
         }
 
         .experience__details {
             display: flex;
             justify-content: center;
-            gap: 200px;
-            margin-bottom: auto;
+            gap: 80px;
         }
 
         .experience__detail {
             text-align: center;
+            width: 250px;
+            white-space: nowrap;
         }
 
         .experience__detail-label {
@@ -515,24 +515,24 @@
         }
 
         /* Footer area within the card */
-        .experience__footer {
-            position: absolute;
-            bottom: 100px;
-            left: 0;
-            right: 0;
-            opacity: 0;
-            padding: 40px 60px 40px;
+        /* ── Site Footer ── */
+        .site-footer {
+            background: #000;
+            padding: 120px 60px 80px;
+        }
+
+        .site-footer__columns {
             display: flex;
             justify-content: center;
-            gap: 200px;
+            gap: 140px;
             align-items: flex-start;
         }
 
-        .experience__footer-col {
+        .site-footer__col {
             min-width: 140px;
         }
 
-        .experience__footer-col h4 {
+        .site-footer__col h4 {
             font-family: 'Neue Montreal', sans-serif;
             font-weight: 400;
             font-size: 13px;
@@ -541,8 +541,8 @@
             color: rgba(255,255,255,0.8);
         }
 
-        .experience__footer-col p,
-        .experience__footer-col a {
+        .site-footer__col p,
+        .site-footer__col a {
             font-family: 'Neue Montreal', sans-serif;
             font-weight: 400;
             font-size: 12px;
@@ -551,19 +551,21 @@
             text-decoration: none;
         }
 
-        .experience__footer-col a:hover {
+        .site-footer__col a:hover {
             color: #fff;
         }
 
-        .experience__copyright {
-            position: absolute;
-            bottom: 16px;
-            left: 50%;
-            transform: translateX(-50%);
+        .site-footer__logo img {
+            height: 80px;
+            display: block;
+        }
+
+        .site-footer__copyright {
+            text-align: center;
+            margin-top: 40px;
             font-family: 'Neue Montreal', sans-serif;
             font-size: 11px;
             color: rgba(255,255,255,0.3);
-            opacity: 0;
         }
 
         /* ── Tablet (768px and below) ── */
@@ -621,11 +623,6 @@
                 gap: 40px;
             }
 
-            .experience__footer {
-                padding: 32px 32px 32px;
-                flex-wrap: wrap;
-                gap: 24px;
-            }
         }
 
         /* ── Mobile (480px and below) ── */
@@ -712,15 +709,6 @@
                 padding: 40px 20px;
             }
 
-            .experience__footer {
-                flex-direction: column;
-                padding: 24px 20px 24px;
-                gap: 20px;
-            }
-
-            .experience__footer-col {
-                min-width: auto;
-            }
         }
     </style>
 </head>
@@ -823,7 +811,7 @@
                 <img class="experience__image" src="assets/images/Hand-Blur-Glass-16-9.png" alt="Hand behind glass">
                 <div class="experience__overlay"></div>
                 <div class="experience__content">
-                    <h2 class="experience__title">COME EXPERIENCE IT</h2>
+                    <h2 class="experience__title">EXPERIENCE IT</h2>
                     <div class="experience__details">
                         <div class="experience__detail">
                             <p class="experience__detail-label">Location</p>
@@ -839,33 +827,40 @@
                         </div>
                     </div>
                 </div>
-                <div class="experience__footer">
-                    <div class="experience__footer-col">
-                        <h4>Socials</h4>
-                        <p><a href="#">Instagram</a></p>
-                        <p><a href="#">Facebook</a></p>
-                        <p><a href="#">TikTok</a></p>
-                        <p><a href="#">X</a></p>
-                    </div>
-                    <div class="experience__footer-col">
-                        <h4>About</h4>
-                        <p><a href="#">Exhibition space</a></p>
-                        <p><a href="#">Info</a></p>
-                    </div>
-                    <div class="experience__footer-col">
-                        <h4>Address</h4>
-                        <p>Aotea Square<br>50 Mayoral Drive<br>Auckland CBD<br>Auckland 1010<br>New Zealand</p>
-                    </div>
-                    <div class="experience__footer-col">
-                        <h4>Contact</h4>
-                        <p><a href="mailto:support@evanescent.co.nz">support@evanescent.co.nz</a></p>
-                        <p><a href="tel:021-0670-0420">021-0670-0420</a></p>
-                    </div>
-                </div>
-                <p class="experience__copyright">&copy; Made by Hue Knows Studio 2026</p>
             </div>
         </div>
     </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="site-footer__columns">
+            <div class="site-footer__col site-footer__logo">
+                <img src="assets/brand/Evanescent_Wordmark-Symbol.png" alt="Evanescent">
+            </div>
+            <div class="site-footer__col">
+                <h4>Socials</h4>
+                <p><a href="#">Instagram</a></p>
+                <p><a href="#">Facebook</a></p>
+                <p><a href="#">TikTok</a></p>
+                <p><a href="#">X</a></p>
+            </div>
+            <div class="site-footer__col">
+                <h4>About</h4>
+                <p><a href="#">Exhibition space</a></p>
+                <p><a href="#">Info</a></p>
+            </div>
+            <div class="site-footer__col">
+                <h4>Address</h4>
+                <p>Aotea Square<br>50 Mayoral Drive<br>Auckland CBD<br>Auckland 1010<br>New Zealand</p>
+            </div>
+            <div class="site-footer__col">
+                <h4>Contact</h4>
+                <p><a href="mailto:support@evanescent.co.nz">support@evanescent.co.nz</a></p>
+                <p><a href="tel:021-0670-0420">021-0670-0420</a></p>
+            </div>
+        </div>
+        <p class="site-footer__copyright">&copy; Made by Hue Knows Studio 2026</p>
+    </footer>
 
     <!-- SVG filter for liquid glass -->
     <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;overflow:hidden" color-interpolation-filters="sRGB">
@@ -1174,41 +1169,19 @@
             }
         });
 
-        // Content fades in after card settles
+        // Content appears when section enters viewport
         gsap.to(".experience__content", {
             opacity: 1,
-            ease: "none",
+            y: 0,
+            duration: 1.2,
+            ease: "power2.out",
             scrollTrigger: {
                 trigger: ".experience",
-                start: "30% top",
-                end: "45% top",
-                scrub: 1
+                start: "10% top",
+                toggleActions: "play none none none"
             }
         });
 
-        // Footer fades in with content
-        gsap.to(".experience__footer", {
-            opacity: 1,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".experience",
-                start: "30% top",
-                end: "45% top",
-                scrub: 1
-            }
-        });
-
-        // Copyright fades in
-        gsap.to(".experience__copyright", {
-            opacity: 1,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".experience",
-                start: "35% top",
-                end: "45% top",
-                scrub: 1
-            }
-        });
 
         // Fade out the nav + gradient on scroll (delayed until nav intro finishes)
         // The nav intro animation sets opacity to 1, so we use .to() but
