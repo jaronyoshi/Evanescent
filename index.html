@@ -43,6 +43,63 @@
             font-family: sans-serif;
         }
 
+        /* ── Loading Screen ── */
+        html.is-loading {
+            overflow: hidden;
+        }
+
+        .loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loader__video {
+            width: 700px;
+            display: block;
+        }
+
+        .loader__percent {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'DaVinci', serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 48px;
+            color: #fff;
+            letter-spacing: 0.02em;
+        }
+
+        /* Eye-open transition overlays — two gradient panels from bottom */
+        .blink-top,
+        .blink-bottom {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            height: 52%;
+            z-index: 9998;
+            pointer-events: none;
+        }
+
+        .blink-top {
+            top: 0;
+            background: #000;
+            transform: translateY(0%);
+        }
+
+        .blink-bottom {
+            bottom: 0;
+            background: #000;
+            transform: translateY(0%);
+        }
+
         /* ── Nav ── */
         .nav {
             position: fixed;
@@ -54,6 +111,8 @@
             justify-content: space-between;
             padding: 28px 40px;
             z-index: 100;
+            opacity: 0;
+            transform: translateY(-10px);
         }
 
         .nav a {
@@ -86,12 +145,14 @@
             background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
             z-index: 99;
             pointer-events: none;
+            opacity: 0;
+            transform: translateY(-10px);
         }
 
         /* ── Hero / Scrollytelling ── */
         .hero {
             position: relative;
-            height: 1200vh; /* scroll runway */
+            height: 1050vh; /* scroll runway */
         }
 
         .hero__sticky {
@@ -156,10 +217,35 @@
             opacity: 0;
             pointer-events: none;
         }
+
+        .hero__shuffle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            z-index: 5;
+            opacity: 0;
+        }
+
+        .hero__shuffle-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+        }
+
+        .hero__shuffle-img:first-child {
+            opacity: 1;
+        }
+
         /* ── Installations section ── */
         .installations {
             position: relative;
-            height: 400vh;
+            height: 350vh;
         }
 
         .installations__sticky {
@@ -328,7 +414,7 @@
         /* ── CTA / Experience section ── */
         .experience {
             position: relative;
-            height: 250vh;
+            height: 220vh;
         }
 
         .experience__sticky {
@@ -627,6 +713,16 @@
 </head>
 <body>
 
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <video class="loader__video" src="assets/videos/evanescent_white_icon_fade.mp4" muted playsinline></video>
+        <div class="loader__percent" id="loader-percent">0%</div>
+    </div>
+
+    <!-- Eye blink transition overlays -->
+    <div class="blink-top" id="blink-top"></div>
+    <div class="blink-bottom" id="blink-bottom"></div>
+
     <!-- Nav gradient + links -->
     <div class="nav-gradient"></div>
     <nav class="nav">
@@ -640,8 +736,15 @@
     <!-- Hero – scrollytelling section -->
     <section class="hero">
         <div class="hero__sticky">
-            <img class="hero__image" src="assets/images/eye-ver-2.jpg" alt="Eye">
+            <img class="hero__image" src="assets/images/eye-ver-3.jpg" alt="Eye">
             <div class="hero__overlay"></div>
+            <div class="hero__shuffle">
+                <img class="hero__shuffle-img" src="assets/images/closed-mouth.jpg" alt="">
+                <img class="hero__shuffle-img" src="assets/images/collar.jpg" alt="">
+                <img class="hero__shuffle-img" src="assets/images/eye-square.jpg" alt="">
+                <img class="hero__shuffle-img" src="assets/images/open-mouth.jpg" alt="">
+                <img class="hero__shuffle-img" src="assets/images/shadow-hand.jpg" alt="">
+            </div>
             <div class="hero__text">
                 <h1 class="hero__heading">Invisible world</h1>
                 <p class="hero__body hero__body--1">As adults, we lose sight of play.</p>
@@ -760,6 +863,130 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <script>
+        // ── Loading Screen ──
+        (function() {
+            // Lock scrolling
+            document.documentElement.classList.add('is-loading');
+
+            const loader = document.getElementById('loader');
+            const percentEl = document.getElementById('loader-percent');
+            const video = loader.querySelector('.loader__video');
+            const blinkTop = document.getElementById('blink-top');
+            const blinkBottom = document.getElementById('blink-bottom');
+
+            // Play video once
+            video.play();
+
+            // Stuttery percentage counter over 7 seconds with pauses
+            const totalDuration = 6200;
+            let currentPercent = 0;
+            let pauseUntil = 0;
+            let hasPausedMid = false;   // pause once between 40-50%
+            let hasPausedLate = false;  // pause once between 70-95%
+
+            const startTime = Date.now();
+
+            function updateLoader() {
+                const now = Date.now();
+
+                // If we're in a pause, just wait
+                if (now < pauseUntil) {
+                    requestAnimationFrame(updateLoader);
+                    return;
+                }
+
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / totalDuration, 1);
+                const target = Math.floor(progress * 100);
+
+                // Check for stutter pauses
+                if (!hasPausedMid && currentPercent >= 40 + Math.floor(Math.random() * 11) && currentPercent <= 50) {
+                    hasPausedMid = true;
+                    pauseUntil = now + 500;
+                    requestAnimationFrame(updateLoader);
+                    return;
+                }
+                if (!hasPausedLate && currentPercent >= 70 + Math.floor(Math.random() * 26) && currentPercent <= 95) {
+                    hasPausedLate = true;
+                    pauseUntil = now + 500;
+                    requestAnimationFrame(updateLoader);
+                    return;
+                }
+
+                // Increment with slight randomness
+                if (Math.random() > 0.25 || target - currentPercent > 4) {
+                    currentPercent = Math.min(currentPercent + Math.floor(Math.random() * 3) + 1, target);
+                }
+
+                percentEl.textContent = currentPercent + '%';
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateLoader);
+                } else {
+                    currentPercent = 100;
+                    percentEl.textContent = '100%';
+                    setTimeout(startTransition, 400);
+                }
+            }
+
+            requestAnimationFrame(updateLoader);
+
+            function startTransition() {
+                const tl = gsap.timeline();
+
+                // Fade out loader content and start eye open simultaneously
+                tl.to([percentEl, video], {
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: 'power2.in'
+                });
+
+                // Hide loader, unlock scroll
+                tl.call(() => {
+                    loader.style.display = 'none';
+                    document.documentElement.classList.remove('is-loading');
+                }, null, '-=0.1');
+
+                // Animate gradient: solid black → soft transparent edge
+                // Using a custom object to tween the gradient stop position
+                const gradientAnim = { stop: 100 }; // 100 = fully solid
+                tl.to(gradientAnim, {
+                    stop: 30,  // 30% solid, rest fades to transparent
+                    duration: 0.7,
+                    ease: 'power4.out',
+                    onUpdate: () => {
+                        blinkTop.style.background = 'linear-gradient(to bottom, #000 ' + gradientAnim.stop + '%, transparent 100%)';
+                        blinkBottom.style.background = 'linear-gradient(to top, #000 ' + gradientAnim.stop + '%, transparent 100%)';
+                    }
+                }, 'eyeOpen');
+
+                // Eyes open — starts slow then accelerates
+                tl.to(blinkTop, {
+                    translateY: '-100%',
+                    duration: 0.9,
+                    ease: 'power2.inOut'
+                }, 'eyeOpen');
+                tl.to(blinkBottom, {
+                    translateY: '100%',
+                    duration: 0.9,
+                    ease: 'power2.inOut',
+                    onComplete: () => {
+                        blinkTop.remove();
+                        blinkBottom.remove();
+                        // Nav slides in from top
+                        gsap.to(['.nav', '.nav-gradient'], {
+                            opacity: 1,
+                            y: 0,
+                            duration: 1.2,
+                            ease: 'power2.out'
+                        });
+                    }
+                }, '<');
+            }
+        })();
+    </script>
+
+    <script>
         gsap.registerPlugin(ScrollTrigger);
 
         // Zoom into the iris (centre of image) as user scrolls
@@ -804,13 +1031,39 @@
             { clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", duration: 10, ease: "none" }
         );
 
-        // 2. Reveal each body line
-        lines.forEach((line) => {
+        // 2. Reveal each body line + shuffle background images
+        const shuffleImgs = document.querySelectorAll(".hero__shuffle-img");
+        const shuffleContainer = document.querySelector(".hero__shuffle");
+
+        // Fade in the shuffle container when body text starts
+        textTl.to(shuffleContainer, { opacity: 0.5, duration: 2, ease: "none" }, "bodyStart");
+
+        lines.forEach((line, i) => {
             textTl.fromTo(line,
                 { clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)" },
-                { clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", duration: 4, ease: "none" }
+                { clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", duration: 4, ease: "none" },
+                "bodyStart+=" + (i * 4)
             );
         });
+
+        // Crossfade between images during body reveal (total body duration = 24)
+        const imgDuration = 24 / shuffleImgs.length;
+        shuffleImgs.forEach((img, i) => {
+            if (i === 0) {
+                // First image is already visible, fade it out when next one starts
+                textTl.to(img, { opacity: 0, duration: imgDuration * 0.3, ease: "none" }, "bodyStart+=" + imgDuration);
+            } else {
+                // Fade in
+                textTl.to(img, { opacity: 1, duration: imgDuration * 0.3, ease: "none" }, "bodyStart+=" + (i * imgDuration));
+                // Fade out (unless last image)
+                if (i < shuffleImgs.length - 1) {
+                    textTl.to(img, { opacity: 0, duration: imgDuration * 0.3, ease: "none" }, "bodyStart+=" + ((i + 1) * imgDuration));
+                }
+            }
+        });
+
+        // Fade out shuffle container at reading pause
+        textTl.to(shuffleContainer, { opacity: 0, duration: 3, ease: "none" });
 
         // 3. Reading pause
         textTl.to({}, { duration: 10 });
