@@ -336,114 +336,40 @@
             height: 100%;
         }
 
-        /* Individual glass cards — liquid glass */
         .glass-card {
-            --tint-color: 255, 255, 255;
-            --tint-opacity: 0.06;
-            --shadow-blur: 20px;
-            --shadow-spread: -5px;
-            --shadow-color: rgba(255, 255, 255, 0.45);
-            --outer-shadow-blur: 24px;
-            --glass-radius: 20px;
             position: absolute;
             width: 240px;
-            border-radius: var(--glass-radius);
+            border-radius: 20px;
             opacity: 0;
             transform: translateY(30px);
-            cursor: pointer;
-            isolation: isolate;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            box-shadow: 0px 4px var(--outer-shadow-blur) rgba(0, 0, 0, 0.18);
+            overflow: hidden;
+            cursor: url('assets/cursors/view-cursor.svg') 32 32, pointer;
+            z-index: 1;
+            transition: z-index 0s;
         }
 
-        /* Inner shadow + tint */
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            z-index: 4;
-            border-radius: inherit;
-            box-shadow: inset 0 0 var(--shadow-blur) var(--shadow-spread) var(--shadow-color);
-            background-color: rgba(var(--tint-color), var(--tint-opacity));
-            pointer-events: none;
+        .glass-card.is-active {
+            z-index: 50;
+            cursor: none;
         }
 
-        /* Backdrop refraction layer */
-        .glass-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-            border-radius: inherit;
-            backdrop-filter: url(#liquid-glass-filter) blur(0.3px);
-            -webkit-backdrop-filter: url(#liquid-glass-filter) blur(0.3px);
-            isolation: isolate;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0px 8px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .glass-card:hover .glass-card__text {
-            transform: translateY(-8px);
+        .glass-card__inner {
+            width: 100%;
+            transform-style: preserve-3d;
         }
 
         .glass-card__image {
             width: 100%;
-            height: 180px;
-            object-fit: cover;
             display: block;
-            opacity: 0.85;
-            filter: saturate(0.9);
-        }
-
-        .glass-card__text {
-            position: relative;
-            z-index: 3;
-            padding: 16px 18px;
-            transition: transform 0.4s ease;
-        }
-
-        .glass-card__title {
-            font-family: 'Neue Montreal', sans-serif;
-            font-weight: 400;
-            font-size: 14px;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-
-        .glass-card__subtitle {
-            font-family: 'Neue Montreal', sans-serif;
-            font-weight: 400;
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-        }
-
-        .glass-card__desc {
-            font-family: 'Neue Montreal', sans-serif;
-            font-weight: 400;
-            font-size: 11px;
-            line-height: 1.5;
-            color: rgba(255,255,255,0.45);
-            margin-top: 10px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, opacity 0.4s ease;
-            opacity: 0;
-        }
-
-        .glass-card:hover .glass-card__desc {
-            max-height: 120px;
-            opacity: 1;
+            border-radius: 20px;
+            backface-visibility: hidden;
         }
 
         /* Card positions — scattered on right */
-        .glass-card--1 { top: 8%; right: 10%; }
-        .glass-card--2 { top: 28%; right: 38%; }
-        .glass-card--3 { top: 52%; right: 8%; }
-        .glass-card--4 { top: 72%; right: 32%; }
+        .glass-card--1 { top: 5%; right: 18%; }
+        .glass-card--2 { top: 20%; right: 45%; }
+        .glass-card--3 { top: 42%; right: 15%; }
+        .glass-card--4 { top: 58%; right: 40%; }
 
         /* ── CTA / Experience section ── */
         .experience {
@@ -795,35 +721,23 @@
             </div>
             <div class="installations__cards">
                 <div class="glass-card glass-card--1">
-                    <img class="glass-card__image" src="assets/images/eye-ver-1.jpg" alt="Omnipresent Optics">
-                    <div class="glass-card__text">
-                        <p class="glass-card__title">Omnipresent Optics</p>
-                        <p class="glass-card__subtitle">Eye Capture</p>
-                        <p class="glass-card__desc">Step softly, for the floor is a stage and the audience is watching from within the machinery of sight.</p>
+                    <div class="glass-card__inner">
+                        <img class="glass-card__image" src="assets/images/circle-installation.png" alt="Omnipresent Optics">
                     </div>
                 </div>
                 <div class="glass-card glass-card--2">
-                    <img class="glass-card__image" src="assets/images/eye-ver-1.jpg" alt="Fractured Reverie">
-                    <div class="glass-card__text">
-                        <p class="glass-card__title">Fractured Reverie</p>
-                        <p class="glass-card__subtitle">Dream Fragment</p>
-                        <p class="glass-card__desc">A corridor of mirrors that reflect not your image, but the memories you thought you had forgotten.</p>
+                    <div class="glass-card__inner">
+                        <img class="glass-card__image" src="assets/images/wave-installation.png" alt="Fractured Reverie">
                     </div>
                 </div>
                 <div class="glass-card glass-card--3">
-                    <img class="glass-card__image" src="assets/images/eye-ver-1.jpg" alt="Dissolving Threshold">
-                    <div class="glass-card__text">
-                        <p class="glass-card__title">Dissolving Threshold</p>
-                        <p class="glass-card__subtitle">Liminal Passage</p>
-                        <p class="glass-card__desc">The walls breathe and the doorways lead nowhere and everywhere at once.</p>
+                    <div class="glass-card__inner">
+                        <img class="glass-card__image" src="assets/images/glory-installation.png" alt="Dissolving Threshold">
                     </div>
                 </div>
                 <div class="glass-card glass-card--4">
-                    <img class="glass-card__image" src="assets/images/eye-ver-1.jpg" alt="Silent Cacophony">
-                    <div class="glass-card__text">
-                        <p class="glass-card__title">Silent Cacophony</p>
-                        <p class="glass-card__subtitle">Sound Sculpture</p>
-                        <p class="glass-card__desc">An installation where silence is louder than noise, and stillness vibrates with unseen energy.</p>
+                    <div class="glass-card__inner">
+                        <img class="glass-card__image" src="assets/images/follow-installation.png" alt="Silent Cacophony">
                     </div>
                 </div>
             </div>
@@ -1153,8 +1067,9 @@
         });
 
         // Floating animation for each card
+        const floatAnims = [];
         cards.forEach((card, i) => {
-            gsap.to(card, {
+            const anim = gsap.to(card, {
                 y: "-=12",
                 x: (i % 2 === 0) ? "+=6" : "-=6",
                 duration: 3 + i * 0.5,
@@ -1162,6 +1077,100 @@
                 repeat: -1,
                 yoyo: true
             });
+            floatAnims.push(anim);
+        });
+
+        // Card click → move to center + 3D flip, click away to dismiss
+        let activeCard = null;
+        let activeCardIndex = -1;
+
+        function dismissActiveCard() {
+            if (!activeCard) return;
+            const card = activeCard;
+            const idx = activeCardIndex;
+            const inner = card.querySelector('.glass-card__inner');
+
+            activeCard = null;
+            activeCardIndex = -1;
+
+            // Remove escape cursor
+            document.body.style.cursor = '';
+
+            // Animate back to original position
+            gsap.to(card, {
+                x: card._returnX,
+                y: card._returnY,
+                scale: 1,
+                duration: 0.6,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    card.classList.remove('is-active');
+                    floatAnims[idx].resume();
+                }
+            });
+
+            gsap.to(inner, {
+                rotationY: 0,
+                duration: 0.6,
+                ease: 'power2.inOut'
+            });
+        }
+
+        cards.forEach((card, i) => {
+            const inner = card.querySelector('.glass-card__inner');
+
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+
+                // Block if another card is active
+                if (activeCard) return;
+
+                activeCard = card;
+                activeCardIndex = i;
+
+                // Pause floating
+                floatAnims[i].pause();
+
+                // Store current position for return
+                const rect = card.getBoundingClientRect();
+                const stickyRect = card.closest('.installations__sticky').getBoundingClientRect();
+                card._returnX = gsap.getProperty(card, 'x');
+                card._returnY = gsap.getProperty(card, 'y');
+
+                // Calculate center offset
+                const cardCenterX = rect.left + rect.width / 2;
+                const cardCenterY = rect.top + rect.height / 2;
+                const viewCenterX = stickyRect.left + stickyRect.width / 2;
+                const viewCenterY = stickyRect.top + stickyRect.height / 2;
+                const dx = viewCenterX - cardCenterX;
+                const dy = viewCenterY - cardCenterY;
+
+                card.classList.add('is-active');
+
+                // Set escape cursor on body
+                document.body.style.cursor = "url('assets/cursors/escape-cursor.svg') 32 10, pointer";
+
+                // Move to center + scale up
+                gsap.to(card, {
+                    x: '+=' + dx,
+                    y: '+=' + dy,
+                    scale: 2.5,
+                    duration: 0.6,
+                    ease: 'power2.out'
+                });
+
+                // 3D flip
+                gsap.to(inner, {
+                    rotationY: 720,
+                    duration: 1.2,
+                    ease: 'power2.inOut'
+                });
+            });
+        });
+
+        // Click anywhere else to dismiss
+        document.addEventListener('click', () => {
+            dismissActiveCard();
         });
 
         // Left text reveal — heading wipe
