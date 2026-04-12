@@ -353,6 +353,10 @@
             cursor: none;
         }
 
+        body.card-open .glass-card {
+            cursor: inherit;
+        }
+
         .glass-card__inner {
             width: 100%;
             transform-style: preserve-3d;
@@ -679,7 +683,7 @@
         <a href="index.html" class="nav__logo">
             <img src="assets/brand/Evanescent_Wordmark.png" alt="Evanescent">
         </a>
-        <a href="#">INFO</a>
+        <a href="info.html">INFO</a>
     </nav>
 
     <!-- Hero – scrollytelling section -->
@@ -1095,6 +1099,7 @@
 
             // Remove escape cursor
             document.body.style.cursor = '';
+            document.body.classList.remove('card-open');
 
             // Animate back to original position
             gsap.to(card, {
@@ -1120,10 +1125,13 @@
             const inner = card.querySelector('.glass-card__inner');
 
             card.addEventListener('click', (e) => {
-                e.stopPropagation();
+                // If a card is already active, treat click on any card as dismiss
+                if (activeCard) {
+                    dismissActiveCard();
+                    return;
+                }
 
-                // Block if another card is active
-                if (activeCard) return;
+                e.stopPropagation();
 
                 activeCard = card;
                 activeCardIndex = i;
@@ -1149,6 +1157,7 @@
 
                 // Set escape cursor on body
                 document.body.style.cursor = "url('assets/cursors/escape-cursor.svg') 32 10, pointer";
+                document.body.classList.add('card-open');
 
                 // Move to center + scale up
                 gsap.to(card, {
