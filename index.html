@@ -34,10 +34,16 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html {
+            overflow-x: clip;
+        }
+
+        body {
             width: 100%;
-            height: 100%;
-            overflow-x: hidden;
+            min-height: 100%;
+            overflow-x: clip;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
             background: #000;
             color: #fff;
             font-family: sans-serif;
@@ -169,6 +175,7 @@
         }
 
         .hero__sticky {
+            position: -webkit-sticky;
             position: sticky;
             top: 0;
             width: 100%;
@@ -283,6 +290,7 @@
         }
 
         .installations__sticky {
+            position: -webkit-sticky;
             position: sticky;
             top: 0;
             width: 100%;
@@ -419,6 +427,7 @@
         }
 
         .experience__sticky {
+            position: -webkit-sticky;
             position: sticky;
             top: 0;
             width: 100%;
@@ -1310,6 +1319,7 @@
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.config({ ignoreMobileResize: true });
 
         // Responsive scroll trigger config
         const isMobile = window.matchMedia("(max-width: 480px)").matches;
