@@ -869,6 +869,9 @@
             .hero__body {
                 font-size: 13px;
                 line-height: 1.4;
+                max-width: 260px;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .hero__text {
@@ -886,13 +889,20 @@
 
             .installations__sticky {
                 padding-top: 70px;
+                flex-direction: column;
+            }
+
+            .installations__cards {
+                order: 1;
             }
 
             .installations__info {
+                order: 2;
                 width: 92%;
                 padding-left: 20px;
                 padding-right: 20px;
                 margin-bottom: 20px;
+                margin-top: 40px;
             }
 
             .installations__heading {
@@ -928,13 +938,13 @@
             }
 
             .glass-card__title {
-                font-size: 10px;
+                font-size: 14px;
                 margin-bottom: 10px;
             }
 
             .glass-card__desc {
-                font-size: 5px;
-                line-height: 1.4;
+                font-size: 7px;
+                line-height: 1.5;
             }
 
             .glass-card__overlay {
@@ -1503,7 +1513,7 @@
         // Card click → move to center + 3D flip, click away to dismiss
         let activeCard = null;
         let activeCardIndex = -1;
-        const cardScale = isMobile ? 1.6 : isTablet ? 1.8 : 2.5;
+        const cardScale = isMobile ? 1.8 : isTablet ? 1.8 : 2.5;
 
         function dismissActiveCard() {
             if (!activeCard) return;
