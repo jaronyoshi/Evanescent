@@ -165,7 +165,7 @@
         /* ── Hero / Scrollytelling ── */
         .hero {
             position: relative;
-            height: 1050vh; /* scroll runway */
+            height: 900vh; /* scroll runway */
         }
 
         .hero__sticky {
@@ -279,7 +279,7 @@
         /* ── Installations section ── */
         .installations {
             position: relative;
-            height: 350vh;
+            height: 300vh;
         }
 
         .installations__sticky {
@@ -367,6 +367,43 @@
             display: block;
             border-radius: 20px;
             backface-visibility: hidden;
+        }
+
+        .glass-card__overlay {
+            position: absolute;
+            inset: 9.6px;
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 9.6px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .glass-card.is-active .glass-card__overlay {
+            opacity: 1;
+        }
+
+        .glass-card__title {
+            font-family: 'DaVinci', serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 19.2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            color: #fff;
+        }
+
+        .glass-card__desc {
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 400;
+            font-size: 8px;
+            line-height: 1.5;
+            color: #fff;
         }
 
         /* Card positions — scattered on right */
@@ -519,14 +556,119 @@
             color: rgba(255,255,255,0.3);
         }
 
-        /* ── Tablet (768px and below) ── */
-        @media (max-width: 768px) {
+        /* ── Tablet (1024px and below) ── */
+        @media (max-width: 1024px) {
+            .loader__video {
+                width: 500px;
+            }
+
+            .loader__percent {
+                font-size: 36px;
+            }
+
             .nav {
-                padding: 24px 24px;
+                padding: 24px 32px;
+            }
+
+            .nav-gradient {
+                height: 160px;
+            }
+
+            .hero {
+                height: 750vh;
+            }
+
+            .hero__intro {
+                font-size: 40px;
+                width: 85%;
+            }
+
+            .hero__heading {
+                font-size: 72px;
+            }
+
+            .hero__body {
+                font-size: 18px;
+            }
+
+            .hero__shuffle {
+                width: 300px;
+                height: 300px;
+            }
+
+            .installations {
+                height: 250vh;
+            }
+
+            .installations__info {
+                padding-left: 48px;
+                width: 42%;
+            }
+
+            .installations__heading {
+                font-size: 48px;
+            }
+
+            .installations__body {
+                font-size: 14px;
+            }
+
+            .glass-card {
+                width: 190px;
+            }
+
+            .glass-card--1 { top: 8%; right: 15%; }
+            .glass-card--2 { top: 22%; right: 42%; }
+            .glass-card--3 { top: 44%; right: 12%; }
+            .glass-card--4 { top: 60%; right: 38%; }
+
+            .experience__content {
+                padding-top: 160px;
+                gap: 80px;
+            }
+
+            .experience__title {
+                font-size: 56px;
+            }
+
+            .experience__details {
+                gap: 50px;
+            }
+
+            .experience__detail {
+                width: 200px;
+            }
+
+            .site-footer {
+                padding: 80px 40px 60px;
+            }
+
+            .site-footer__columns {
+                gap: 80px;
+            }
+
+            .site-footer__col {
+                min-width: 110px;
+            }
+        }
+
+        /* ── Tablet portrait (768px and below) ── */
+        @media (max-width: 768px) {
+            .loader__video {
+                width: 400px;
+            }
+
+            .loader__percent {
+                font-size: 32px;
+                bottom: 50px;
+            }
+
+            .nav {
+                padding: 22px 24px;
             }
 
             .nav a {
-                font-size: 13px;
+                font-size: 11px;
             }
 
             .nav__logo img {
@@ -534,95 +676,66 @@
             }
 
             .nav-gradient {
-                height: 150px;
+                height: 140px;
+            }
+
+            .nav-gradient-bottom {
+                height: 140px;
+            }
+
+            .hero {
+                height: 650vh;
+            }
+
+            .hero__intro {
+                font-size: 32px;
+                width: 88%;
             }
 
             .hero__heading {
-                font-size: 64px;
+                font-size: 56px;
             }
 
             .hero__body {
-                font-size: 20px;
+                font-size: 16px;
             }
 
             .hero__text {
                 width: 88%;
             }
 
-            .installations__info {
-                padding-left: 32px;
-                width: 38%;
+            .hero__shuffle {
+                width: 240px;
+                height: 240px;
             }
 
-            .installations__heading {
-                font-size: 44px;
-            }
-
-            .glass-card {
-                width: 190px;
-            }
-
-            .glass-card__image {
-                height: 140px;
-            }
-
-            .experience__title {
-                font-size: 52px;
-            }
-
-            .experience__details {
-                gap: 40px;
-            }
-
-        }
-
-        /* ── Mobile (480px and below) ── */
-        @media (max-width: 480px) {
-            .nav {
-                padding: 20px 16px;
-            }
-
-            .nav a {
-                font-size: 11px;
-                letter-spacing: 0.05em;
-            }
-
-            .nav__logo img {
-                height: 12px;
-            }
-
-            .nav-gradient {
-                height: 120px;
-            }
-
-            .hero__heading {
-                font-size: 40px;
-            }
-
-            .hero__body {
-                font-size: 16px;
-                line-height: 1.4;
-            }
-
-            .hero__text {
-                width: 92%;
+            .installations {
+                height: 220vh;
             }
 
             .installations__sticky {
                 flex-direction: column;
                 justify-content: flex-start;
-                padding-top: 60px;
+                padding-top: 80px;
             }
 
             .installations__info {
-                width: 90%;
-                padding-left: 20px;
-                padding-right: 20px;
-                margin-bottom: 32px;
+                width: 85%;
+                padding-left: 32px;
+                padding-right: 32px;
+                margin-bottom: 40px;
             }
 
             .installations__heading {
-                font-size: 36px;
+                font-size: 40px;
+            }
+
+            .installations__subheading {
+                font-size: 12px;
+            }
+
+            .installations__body {
+                font-size: 13px;
             }
 
             .installations__cards {
@@ -631,8 +744,8 @@
                 height: auto;
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 12px;
-                padding: 0 20px;
+                gap: 16px;
+                padding: 0 32px;
             }
 
             .glass-card {
@@ -640,26 +753,255 @@
                 top: auto !important;
                 right: auto !important;
                 width: 100%;
+                border-radius: 14px;
+            }
+
+            .glass-card.is-active {
+                z-index: 100;
             }
 
             .glass-card__image {
-                height: 120px;
+                border-radius: 14px;
+            }
+
+            .glass-card__overlay {
+                border-radius: 4px;
+            }
+
+            .experience__content {
+                padding-top: 140px;
+                gap: 60px;
             }
 
             .experience__title {
-                font-size: 32px;
-                margin-bottom: 40px;
+                font-size: 44px;
             }
 
             .experience__details {
-                flex-direction: column;
-                gap: 20px;
+                gap: 36px;
+            }
+
+            .experience__detail {
+                width: 180px;
+            }
+
+            .experience__detail-label {
+                font-size: 12px;
+            }
+
+            .experience__detail-value {
+                font-size: 13px;
+            }
+
+            .site-footer {
+                padding: 60px 32px 50px;
+            }
+
+            .site-footer__columns {
+                gap: 48px;
+            }
+
+            .site-footer__col {
+                min-width: 90px;
+            }
+
+            .site-footer__logo img {
+                height: 60px;
+            }
+        }
+
+        /* ── Mobile (480px and below) ── */
+        @media (max-width: 480px) {
+            .loader__video {
+                width: 280px;
+            }
+
+            .loader__percent {
+                font-size: 28px;
+                bottom: 40px;
+            }
+
+            .nav {
+                padding: 18px 16px;
+            }
+
+            .nav a {
+                font-size: 10px;
+                letter-spacing: 0.05em;
+            }
+
+            .nav__logo img {
+                height: 12px;
+            }
+
+            .nav-gradient {
+                height: 100px;
+            }
+
+            .nav-gradient-bottom {
+                height: 100px;
+            }
+
+            .hero {
+                height: 550vh;
+            }
+
+            .hero__intro {
+                font-size: 20px;
+                width: 88%;
+                line-height: 1.4;
+            }
+
+            .hero__heading {
+                font-size: 32px;
+                white-space: normal;
+            }
+
+            .hero__body {
+                font-size: 13px;
+                line-height: 1.4;
+            }
+
+            .hero__text {
+                width: 92%;
+            }
+
+            .hero__shuffle {
+                width: 180px;
+                height: 180px;
+            }
+
+            .installations {
+                height: 200vh;
+            }
+
+            .installations__sticky {
+                padding-top: 70px;
+            }
+
+            .installations__info {
+                width: 92%;
+                padding-left: 20px;
+                padding-right: 20px;
+                margin-bottom: 20px;
+            }
+
+            .installations__heading {
+                font-size: 28px;
+                margin-bottom: 16px;
+            }
+
+            .installations__subheading {
+                font-size: 10px;
+                margin-bottom: 10px;
+            }
+
+            .installations__body {
+                font-size: 11px;
+                line-height: 1.5;
+            }
+
+            .installations__cards {
+                gap: 8px;
+                padding: 0 20px;
+            }
+
+            .glass-card {
+                border-radius: 10px;
+            }
+
+            .glass-card.is-active {
+                z-index: 100;
+            }
+
+            .glass-card__image {
+                border-radius: 10px;
+            }
+
+            .glass-card__title {
+                font-size: 10px;
+                margin-bottom: 10px;
+            }
+
+            .glass-card__desc {
+                font-size: 5px;
+                line-height: 1.4;
+            }
+
+            .glass-card__overlay {
+                inset: 5px;
+                padding: 5px;
+                border-radius: 3px;
+            }
+
+            .experience {
+                height: 110vh;
             }
 
             .experience__content {
                 padding: 40px 20px;
+                padding-top: 100px;
+                gap: 32px;
             }
 
+            .experience__title {
+                font-size: 28px;
+            }
+
+            .experience__details {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .experience__detail {
+                width: auto;
+            }
+
+            .experience__detail-label {
+                font-size: 11px;
+            }
+
+            .experience__detail-value {
+                font-size: 12px;
+            }
+
+            .site-footer {
+                padding: 50px 24px 40px;
+            }
+
+            .site-footer__columns {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 32px 24px;
+            }
+
+            .site-footer__logo {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+
+            .site-footer__logo img {
+                height: 40px;
+                margin: 0 auto;
+            }
+
+            .site-footer__col {
+                min-width: 0;
+            }
+
+            .site-footer__col h4 {
+                font-size: 11px;
+            }
+
+            .site-footer__col p,
+            .site-footer__col a {
+                font-size: 10px;
+            }
+
+            .site-footer__copyright {
+                font-size: 9px;
+            }
         }
     </style>
 </head>
@@ -727,21 +1069,37 @@
                 <div class="glass-card glass-card--1">
                     <div class="glass-card__inner">
                         <img class="glass-card__image" src="assets/images/circle-installation.png" alt="Omnipresent Optics">
+                        <div class="glass-card__overlay">
+                            <h3 class="glass-card__title">Omnipresent Optics</h3>
+                            <p class="glass-card__desc">Step softly, for the floor is a stage and the audience is watching from within the masonry. Your optics bring to life the remnants of many playful souls- yearning for a spark of the antics they once possessed. but their stay is not permanent, and so you must continue their wishes- to relish in life's play.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="glass-card glass-card--2">
                     <div class="glass-card__inner">
-                        <img class="glass-card__image" src="assets/images/wave-installation.png" alt="Fractured Reverie">
+                        <img class="glass-card__image" src="assets/images/wave-installation.png" alt="Familiar Fluctuations">
+                        <div class="glass-card__overlay">
+                            <h3 class="glass-card__title">Familiar Fluctuations</h3>
+                            <p class="glass-card__desc">A stream of familiarity that has been stretched and punctured by the distortion of time. You look for a recognisable feature, a sister's smile, a father's brow, but the image refuses to settle into a single person. These are the true images of our embodiments, caught in a state of constant transit. Even here, in the distorted wave, the 'play' remains our constant companion, a vibrant thread streaming through our presence.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="glass-card glass-card--3">
                     <div class="glass-card__inner">
-                        <img class="glass-card__image" src="assets/images/glory-installation.png" alt="Dissolving Threshold">
+                        <img class="glass-card__image" src="assets/images/glory-installation.png" alt="The Tessaract">
+                        <div class="glass-card__overlay">
+                            <h3 class="glass-card__title">The Tessaract</h3>
+                            <p class="glass-card__desc">The cube calls. Your dome becomes a chasm for the unknown- its cubic abyss fragmenting your mind and memories, expulsing them across a digital cosmos, your restlessness is stripped away, leaving only the pure, primal essence of play within. This oculus scours the mental clutter, purging the grey noise of the concrete jungle. What remains is a clarity, allowing you to finally perceive the world's true, hidden colours, the secret joy hidden behind the mundane.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="glass-card glass-card--4">
                     <div class="glass-card__inner">
-                        <img class="glass-card__image" src="assets/images/follow-installation.png" alt="Silent Cacophony">
+                        <img class="glass-card__image" src="assets/images/follow-installation.png" alt="Unspoken Observer">
+                        <div class="glass-card__overlay">
+                            <h3 class="glass-card__title">Unspoken Observer</h3>
+                            <p class="glass-card__desc">Behind these colossal, unblinking spheres lies a soul adrift in darkness, yet he harbors no malice. His pupils drag heavily with every stride you take, anchored to your movement by a desperate, unspoken truth: the play within you has not died; it is merely dormant. Though he yearns to scream this revelation, he has been denied a mouth, left only with the agonizing duty of observation. He watches, waiting for the moment you recognize the spark he sees so clearly. Will you spare him the pain of his silence and choose to see the play again?</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -818,90 +1176,95 @@
     <script>
         // ── Loading Screen ──
         (function() {
-            // Lock scrolling
-            document.documentElement.classList.add('is-loading');
-
             const loader = document.getElementById('loader');
             const percentEl = document.getElementById('loader-percent');
             const video = loader.querySelector('.loader__video');
             const blinkTop = document.getElementById('blink-top');
             const blinkBottom = document.getElementById('blink-bottom');
 
-            // Play video once
-            video.play();
+            const skipLoader = sessionStorage.getItem('evanescent-visited');
+            sessionStorage.setItem('evanescent-visited', '1');
 
-            // Stuttery percentage counter over 7 seconds with pauses
-            const totalDuration = 6200;
-            let currentPercent = 0;
-            let pauseUntil = 0;
-            let hasPausedMid = false;   // pause once between 40-50%
-            let hasPausedLate = false;  // pause once between 70-95%
+            if (skipLoader) {
+                // Skip loader, just do eye-opening transition
+                loader.style.display = 'none';
+                document.documentElement.classList.add('is-loading');
+                window.addEventListener('load', () => startTransition());
+            } else {
+                // Full loader
+                document.documentElement.classList.add('is-loading');
+                video.play();
 
-            const startTime = Date.now();
+                const totalDuration = 6200;
+                let currentPercent = 0;
+                let pauseUntil = 0;
+                let hasPausedMid = false;
+                let hasPausedLate = false;
 
-            function updateLoader() {
-                const now = Date.now();
+                const startTime = Date.now();
 
-                // If we're in a pause, just wait
-                if (now < pauseUntil) {
-                    requestAnimationFrame(updateLoader);
-                    return;
+                function updateLoader() {
+                    const now = Date.now();
+
+                    if (now < pauseUntil) {
+                        requestAnimationFrame(updateLoader);
+                        return;
+                    }
+
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / totalDuration, 1);
+                    const target = Math.floor(progress * 100);
+
+                    if (!hasPausedMid && currentPercent >= 40 + Math.floor(Math.random() * 11) && currentPercent <= 50) {
+                        hasPausedMid = true;
+                        pauseUntil = now + 500;
+                        requestAnimationFrame(updateLoader);
+                        return;
+                    }
+                    if (!hasPausedLate && currentPercent >= 70 + Math.floor(Math.random() * 26) && currentPercent <= 95) {
+                        hasPausedLate = true;
+                        pauseUntil = now + 500;
+                        requestAnimationFrame(updateLoader);
+                        return;
+                    }
+
+                    if (Math.random() > 0.25 || target - currentPercent > 4) {
+                        currentPercent = Math.min(currentPercent + Math.floor(Math.random() * 3) + 1, target);
+                    }
+
+                    percentEl.textContent = currentPercent + '%';
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateLoader);
+                    } else {
+                        currentPercent = 100;
+                        percentEl.textContent = '100%';
+                        setTimeout(startTransition, 400);
+                    }
                 }
 
-                const elapsed = now - startTime;
-                const progress = Math.min(elapsed / totalDuration, 1);
-                const target = Math.floor(progress * 100);
-
-                // Check for stutter pauses
-                if (!hasPausedMid && currentPercent >= 40 + Math.floor(Math.random() * 11) && currentPercent <= 50) {
-                    hasPausedMid = true;
-                    pauseUntil = now + 500;
-                    requestAnimationFrame(updateLoader);
-                    return;
-                }
-                if (!hasPausedLate && currentPercent >= 70 + Math.floor(Math.random() * 26) && currentPercent <= 95) {
-                    hasPausedLate = true;
-                    pauseUntil = now + 500;
-                    requestAnimationFrame(updateLoader);
-                    return;
-                }
-
-                // Increment with slight randomness
-                if (Math.random() > 0.25 || target - currentPercent > 4) {
-                    currentPercent = Math.min(currentPercent + Math.floor(Math.random() * 3) + 1, target);
-                }
-
-                percentEl.textContent = currentPercent + '%';
-
-                if (progress < 1) {
-                    requestAnimationFrame(updateLoader);
-                } else {
-                    currentPercent = 100;
-                    percentEl.textContent = '100%';
-                    setTimeout(startTransition, 400);
-                }
+                requestAnimationFrame(updateLoader);
             }
-
-            requestAnimationFrame(updateLoader);
 
             function startTransition() {
                 const tl = gsap.timeline();
 
-                // Fade out loader content and start eye open simultaneously
-                tl.to([percentEl, video], {
-                    opacity: 0,
-                    duration: 0.3,
-                    ease: 'power2.in'
-                });
+                if (!skipLoader) {
+                    tl.to([percentEl, video], {
+                        opacity: 0,
+                        duration: 0.3,
+                        ease: 'power2.in'
+                    });
 
-                // Hide loader, unlock scroll
-                tl.call(() => {
-                    loader.style.display = 'none';
-                    document.documentElement.classList.remove('is-loading');
-                }, null, '-=0.1');
-
-                // Animate gradient: solid black → soft transparent edge
-                // Using a custom object to tween the gradient stop position
+                    tl.call(() => {
+                        loader.style.display = 'none';
+                        document.documentElement.classList.remove('is-loading');
+                    }, null, '-=0.1');
+                } else {
+                    tl.call(() => {
+                        document.documentElement.classList.remove('is-loading');
+                    });
+                }
                 const gradientAnim = { stop: 100 }; // 100 = fully solid
                 tl.to(gradientAnim, {
                     stop: 30,  // 30% solid, rest fades to transparent
@@ -948,6 +1311,45 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
+        // Responsive scroll trigger config
+        const isMobile = window.matchMedia("(max-width: 480px)").matches;
+        const isTablet = window.matchMedia("(max-width: 768px)").matches;
+
+        const scrollConfig = isMobile ? {
+            introEnd: "12% top",
+            overlayStart: "3% top",
+            overlayEnd: "30% top",
+            textStart: "25% top",
+            textEnd: "92% top",
+            cardStart: 3, cardStep: 5, cardEndOffset: 5,
+            headingStart: "25% top", headingEnd: "35% top",
+            subStart: "35% top", subEnd: "42% top",
+            bodyStart: "42% top", bodyEnd: "50% top",
+            navEnd: "20% top"
+        } : isTablet ? {
+            introEnd: "10% top",
+            overlayStart: "2% top",
+            overlayEnd: "35% top",
+            textStart: "30% top",
+            textEnd: "93% top",
+            cardStart: 4, cardStep: 6, cardEndOffset: 6,
+            headingStart: "30% top", headingEnd: "42% top",
+            subStart: "42% top", subEnd: "50% top",
+            bodyStart: "50% top", bodyEnd: "58% top",
+            navEnd: "18% top"
+        } : {
+            introEnd: "8% top",
+            overlayStart: "2% top",
+            overlayEnd: "40% top",
+            textStart: "35% top",
+            textEnd: "95% top",
+            cardStart: 5, cardStep: 8, cardEndOffset: 7,
+            headingStart: "40% top", headingEnd: "52% top",
+            subStart: "52% top", subEnd: "58% top",
+            bodyStart: "58% top", bodyEnd: "66% top",
+            navEnd: "15% top"
+        };
+
         // Zoom into the iris (centre of image) as user scrolls
         gsap.to(".hero__image", {
             scale: 5,
@@ -957,7 +1359,7 @@
                 start: "top top",
                 end: "bottom top",
                 scrub: 1,
-                pin: false // sticky CSS handles pinning
+                pin: false
             }
         });
 
@@ -969,30 +1371,30 @@
             scrollTrigger: {
                 trigger: ".hero",
                 start: "top top",
-                end: "8% top",
+                end: scrollConfig.introEnd,
                 scrub: 1
             }
         });
 
-        // Gradual dark overlay — starts early, gets very dark
+        // Gradual dark overlay
         gsap.to(".hero__overlay", {
             opacity: 1,
             ease: "power2.in",
             scrollTrigger: {
                 trigger: ".hero",
-                start: "2% top",
-                end: "40% top",
+                start: scrollConfig.overlayStart,
+                end: scrollConfig.overlayEnd,
                 scrub: 1
             }
         });
 
-        // Single timeline for all text: reveal heading → reveal body → pause → unreveal body → unreveal heading
+        // Single timeline for all text
         const lines = document.querySelectorAll(".hero__body");
         const textTl = gsap.timeline({
             scrollTrigger: {
                 trigger: ".hero",
-                start: "35% top",
-                end: "95% top",
+                start: scrollConfig.textStart,
+                end: scrollConfig.textEnd,
                 scrub: 1
             }
         });
@@ -1063,30 +1465,35 @@
                 ease: "power2.out",
                 scrollTrigger: {
                     trigger: ".installations",
-                    start: (5 + i * 8) + "% top",
-                    end: (12 + i * 8) + "% top",
+                    start: (scrollConfig.cardStart + i * scrollConfig.cardStep) + "% top",
+                    end: (scrollConfig.cardStart + i * scrollConfig.cardStep + scrollConfig.cardEndOffset) + "% top",
                     scrub: 1
                 }
             });
         });
 
-        // Floating animation for each card
+        // Floating animation for each card (desktop only)
         const floatAnims = [];
-        cards.forEach((card, i) => {
-            const anim = gsap.to(card, {
-                y: "-=12",
-                x: (i % 2 === 0) ? "+=6" : "-=6",
-                duration: 3 + i * 0.5,
-                ease: "sine.inOut",
-                repeat: -1,
-                yoyo: true
+        if (!isTablet) {
+            cards.forEach((card, i) => {
+                const anim = gsap.to(card, {
+                    y: "-=12",
+                    x: (i % 2 === 0) ? "+=6" : "-=6",
+                    duration: 3 + i * 0.5,
+                    ease: "sine.inOut",
+                    repeat: -1,
+                    yoyo: true
+                });
+                floatAnims.push(anim);
             });
-            floatAnims.push(anim);
-        });
+        } else {
+            cards.forEach(() => floatAnims.push(null));
+        }
 
         // Card click → move to center + 3D flip, click away to dismiss
         let activeCard = null;
         let activeCardIndex = -1;
+        const cardScale = isMobile ? 1.6 : isTablet ? 1.8 : 2.5;
 
         function dismissActiveCard() {
             if (!activeCard) return;
@@ -1110,7 +1517,7 @@
                 ease: 'power2.inOut',
                 onComplete: () => {
                     card.classList.remove('is-active');
-                    floatAnims[idx].resume();
+                    if (floatAnims[idx]) floatAnims[idx].resume();
                 }
             });
 
@@ -1136,20 +1543,19 @@
                 activeCard = card;
                 activeCardIndex = i;
 
-                // Pause floating
-                floatAnims[i].pause();
+                // Pause floating (desktop only)
+                if (floatAnims[i]) floatAnims[i].pause();
 
                 // Store current position for return
                 const rect = card.getBoundingClientRect();
-                const stickyRect = card.closest('.installations__sticky').getBoundingClientRect();
                 card._returnX = gsap.getProperty(card, 'x');
                 card._returnY = gsap.getProperty(card, 'y');
 
-                // Calculate center offset
+                // Calculate center of viewport
                 const cardCenterX = rect.left + rect.width / 2;
                 const cardCenterY = rect.top + rect.height / 2;
-                const viewCenterX = stickyRect.left + stickyRect.width / 2;
-                const viewCenterY = stickyRect.top + stickyRect.height / 2;
+                const viewCenterX = window.innerWidth / 2;
+                const viewCenterY = window.innerHeight / 2;
                 const dx = viewCenterX - cardCenterX;
                 const dy = viewCenterY - cardCenterY;
 
@@ -1163,7 +1569,7 @@
                 gsap.to(card, {
                     x: '+=' + dx,
                     y: '+=' + dy,
-                    scale: 2.5,
+                    scale: cardScale,
                     duration: 0.6,
                     ease: 'power2.out'
                 });
@@ -1188,8 +1594,8 @@
             ease: "none",
             scrollTrigger: {
                 trigger: ".installations",
-                start: "40% top",
-                end: "52% top",
+                start: scrollConfig.headingStart,
+                end: scrollConfig.headingEnd,
                 scrub: 1
             }
         });
@@ -1200,8 +1606,8 @@
             ease: "none",
             scrollTrigger: {
                 trigger: ".installations",
-                start: "52% top",
-                end: "58% top",
+                start: scrollConfig.subStart,
+                end: scrollConfig.subEnd,
                 scrub: 1
             }
         });
@@ -1212,8 +1618,8 @@
             ease: "none",
             scrollTrigger: {
                 trigger: ".installations",
-                start: "58% top",
-                end: "66% top",
+                start: scrollConfig.bodyStart,
+                end: scrollConfig.bodyEnd,
                 scrub: 1
             }
         });
@@ -1256,7 +1662,7 @@
             scrollTrigger: {
                 trigger: ".hero",
                 start: "top top",
-                end: "15% top",
+                end: scrollConfig.navEnd,
                 scrub: 1
             }
         });

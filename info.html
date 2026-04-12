@@ -179,6 +179,108 @@
             font-size: 15px;
             color: #fff;
         }
+
+        /* ── Tablet (1024px and below) ── */
+        @media (max-width: 1024px) {
+            .nav {
+                padding: 24px 32px;
+            }
+
+            .nav-gradient {
+                height: 160px;
+            }
+
+            .info-bar {
+                padding: 40px 32px;
+            }
+
+            .info-bar__details {
+                gap: 50px;
+            }
+
+            .info-bar__detail {
+                width: 200px;
+            }
+        }
+
+        /* ── Tablet portrait (768px and below) ── */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 22px 24px;
+            }
+
+            .nav a {
+                font-size: 11px;
+            }
+
+            .nav__logo img {
+                height: 14px;
+            }
+
+            .nav-gradient {
+                height: 140px;
+            }
+
+            .info-bar {
+                padding: 36px 24px;
+            }
+
+            .info-bar__details {
+                gap: 36px;
+            }
+
+            .info-bar__detail {
+                width: 180px;
+            }
+
+            .info-bar__label {
+                font-size: 12px;
+            }
+
+            .info-bar__value {
+                font-size: 13px;
+            }
+        }
+
+        /* ── Mobile (480px and below) ── */
+        @media (max-width: 480px) {
+            .nav {
+                padding: 18px 16px;
+            }
+
+            .nav a {
+                font-size: 10px;
+                letter-spacing: 0.05em;
+            }
+
+            .nav__logo img {
+                height: 12px;
+            }
+
+            .nav-gradient {
+                height: 100px;
+            }
+
+            .info-bar {
+                padding: 28px 16px;
+            }
+
+            .info-bar__details {
+                gap: 20px;
+            }
+
+            .info-bar__detail {
+                width: auto;
+            }
+
+            .info-bar__label {
+                font-size: 11px;
+            }
+
+            .info-bar__value {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -233,6 +335,8 @@
         (function() {
             const blinkTop = document.getElementById('blink-top');
             const blinkBottom = document.getElementById('blink-bottom');
+
+            sessionStorage.setItem('evanescent-visited', '1');
 
             window.addEventListener('load', () => {
                 const tl = gsap.timeline();
