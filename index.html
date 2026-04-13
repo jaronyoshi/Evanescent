@@ -844,11 +844,11 @@
             }
 
             .nav-gradient {
-                height: 100px;
+                height: 500px;
             }
 
             .nav-gradient-bottom {
-                height: 100px;
+                height: 500px;
             }
 
             .hero {
@@ -867,7 +867,7 @@
             }
 
             .hero__body {
-                font-size: 13px;
+                font-size: 16px;
                 line-height: 1.4;
                 max-width: 260px;
                 margin-left: auto;
@@ -960,17 +960,21 @@
             .experience__content {
                 padding: 40px 20px;
                 padding-top: 100px;
-                gap: 32px;
+                gap: 120px;
             }
 
             .experience__title {
-                font-size: 28px;
+                font-size: 32px;
             }
 
             .experience__details {
                 flex-direction: column;
                 align-items: center;
-                gap: 20px;
+                gap: 32px;
+            }
+
+            .experience__detail-value {
+                font-size: 20px;
             }
 
             .experience__detail {
@@ -979,10 +983,6 @@
 
             .experience__detail-label {
                 font-size: 11px;
-            }
-
-            .experience__detail-value {
-                font-size: 12px;
             }
 
             .site-footer {
@@ -1050,7 +1050,10 @@
     <!-- Hero – scrollytelling section -->
     <section class="hero">
         <div class="hero__sticky">
-            <img class="hero__image" src="assets/images/eye-ver-3.jpg" alt="Eye">
+            <picture>
+                <source media="(max-width: 480px)" srcset="assets/mobile-images/eye-mobile-hero.jpg">
+                <img class="hero__image" src="assets/images/eye-ver-3.jpg" alt="Eye">
+            </picture>
             <div class="hero__overlay"></div>
             <div class="hero__intro">
                 <p>At some point, everything started looking the same, feeling the same, and meaning the same.</p>
@@ -1129,7 +1132,10 @@
     <section class="experience">
         <div class="experience__sticky">
             <div class="experience__card">
-                <img class="experience__image" src="assets/images/Hand-Blur-Glass-16-9.png" alt="Hand behind glass">
+                <picture>
+                    <source media="(max-width: 480px)" srcset="assets/mobile-images/hand-mobile.png">
+                    <img class="experience__image" src="assets/images/Hand-Blur-Glass-16-9.png" alt="Hand behind glass">
+                </picture>
                 <div class="experience__overlay"></div>
                 <div class="experience__content">
                     <h2 class="experience__title">EXPERIENCE IT</h2>
