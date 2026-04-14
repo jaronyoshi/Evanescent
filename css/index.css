@@ -1,0 +1,880 @@
+/* ── Index page overrides for html/body ── */
+html {
+    overflow-x: clip;
+    height: auto;
+    overflow: visible;
+}
+
+body {
+    min-height: 100%;
+    height: auto;
+    overflow-x: clip;
+    overflow: visible;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+}
+
+/* ── Loading Screen ── */
+.loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader__video {
+    width: 700px;
+    display: block;
+}
+
+.loader__percent {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DaVinci', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 48px;
+    color: #fff;
+    letter-spacing: 0.02em;
+}
+
+/* ── Nav gradient bottom ── */
+.nav-gradient-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    z-index: 99;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+/* ── Hero / Scrollytelling ── */
+.hero {
+    position: relative;
+    height: 900vh;
+}
+
+.hero__sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    will-change: transform;
+}
+
+.hero__intro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    width: 80%;
+    max-width: 1300px;
+    opacity: 0;
+    font-family: 'DaVinci', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 55px;
+    line-height: 1.3;
+}
+
+.hero__intro p {
+    margin-bottom: 16px;
+}
+
+/* ── Hero text reveal ── */
+.hero__text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    width: 80%;
+    max-width: 800px;
+}
+
+.hero__heading {
+    font-family: 'DaVinci', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 96px;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    white-space: nowrap;
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+}
+
+.hero__body {
+    font-family: 'DaVinci', serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 21px;
+    line-height: 1.5;
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    margin-bottom: 8px;
+}
+
+.hero__body:last-child {
+    margin-bottom: 0;
+}
+
+.hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.hero__shuffle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    z-index: 5;
+    opacity: 0;
+}
+
+.hero__shuffle-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+}
+
+.hero__shuffle-img:first-child {
+    opacity: 1;
+}
+
+/* ── Installations section ── */
+.installations {
+    position: relative;
+    height: 300vh;
+}
+
+.installations__sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.installations__info {
+    width: 40%;
+    padding-left: 80px;
+}
+
+.installations__heading {
+    font-family: 'DaVinci', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+}
+
+.installations__subheading {
+    font-family: 'Neue Montreal', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0;
+}
+
+.installations__body {
+    font-family: 'Neue Montreal', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.75);
+    opacity: 0;
+}
+
+.installations__cards {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 55%;
+    height: 100%;
+}
+
+.glass-card {
+    position: absolute;
+    width: 240px;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateY(30px);
+    overflow: hidden;
+    cursor: url('../assets/cursors/view-cursor.svg') 32 32, pointer;
+    z-index: 1;
+    transition: z-index 0s;
+}
+
+.glass-card.is-active {
+    z-index: 50;
+    cursor: none;
+}
+
+body.card-open .glass-card {
+    cursor: inherit;
+}
+
+.glass-card__inner {
+    width: 100%;
+    transform-style: preserve-3d;
+}
+
+.glass-card__image {
+    width: 100%;
+    display: block;
+    border-radius: 20px;
+    backface-visibility: hidden;
+}
+
+.glass-card__overlay {
+    position: absolute;
+    inset: 9.6px;
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 9.6px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.glass-card.is-active .glass-card__overlay {
+    opacity: 1;
+}
+
+.glass-card__title {
+    font-family: 'DaVinci', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19.2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    color: #fff;
+}
+
+.glass-card__desc {
+    font-family: 'Neue Montreal', sans-serif;
+    font-weight: 400;
+    font-size: 8px;
+    line-height: 1.5;
+    color: #fff;
+}
+
+/* Card positions */
+.glass-card--1 { top: 5%; right: 18%; }
+.glass-card--2 { top: 20%; right: 45%; }
+.glass-card--3 { top: 42%; right: 15%; }
+.glass-card--4 { top: 58%; right: 40%; }
+
+/* ── CTA / Experience section ── */
+.experience {
+    position: relative;
+    height: 125vh;
+}
+
+.experience__sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.experience__card {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transform: translateY(100vh);
+}
+
+.experience__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    background: #000;
+    display: block;
+}
+
+.experience__overlay {
+    display: none;
+}
+
+.experience__content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 40px;
+    padding-top: 210px;
+    opacity: 0;
+    transform: translateY(15px);
+    gap: 120px;
+}
+
+.experience__title {
+    font-family: 'DaVinci', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 72px;
+    text-align: center;
+    margin-bottom: 0;
+    letter-spacing: 0.04em;
+}
+
+.experience__details {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+}
+
+.experience__detail {
+    text-align: center;
+    width: 250px;
+    white-space: nowrap;
+}
+
+.experience__detail-label {
+    font-family: 'Neue Montreal', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: rgba(255,255,255,0.7);
+}
+
+.experience__detail-value {
+    font-family: 'Neue Montreal', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: #fff;
+}
+
+/* ── Site Footer ── */
+.site-footer {
+    background: #000;
+    padding: 120px 60px 80px;
+}
+
+.site-footer__columns {
+    display: flex;
+    justify-content: center;
+    gap: 140px;
+    align-items: flex-start;
+}
+
+.site-footer__col {
+    min-width: 140px;
+}
+
+.site-footer__col h4 {
+    font-family: 'Neue Montreal', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+    color: rgba(255,255,255,0.8);
+}
+
+.site-footer__col p,
+.site-footer__col a {
+    font-family: 'Neue Montreal', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+}
+
+.site-footer__col a:hover {
+    color: #fff;
+}
+
+.site-footer__logo img {
+    height: 80px;
+    display: block;
+}
+
+.site-footer__copyright {
+    text-align: center;
+    margin-top: 40px;
+    font-family: 'Neue Montreal', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+}
+
+/* ── Tablet (1024px and below) ── */
+@media (max-width: 1024px) {
+    .loader__video {
+        width: 500px;
+    }
+
+    .loader__percent {
+        font-size: 36px;
+    }
+
+    .hero {
+        height: 750vh;
+    }
+
+    .hero__intro {
+        font-size: 40px;
+        width: 85%;
+    }
+
+    .hero__heading {
+        font-size: 72px;
+    }
+
+    .hero__body {
+        font-size: 18px;
+    }
+
+    .hero__shuffle {
+        width: 300px;
+        height: 300px;
+    }
+
+    .installations {
+        height: 250vh;
+    }
+
+    .installations__info {
+        padding-left: 48px;
+        width: 42%;
+    }
+
+    .installations__heading {
+        font-size: 48px;
+    }
+
+    .installations__body {
+        font-size: 14px;
+    }
+
+    .glass-card {
+        width: 190px;
+    }
+
+    .glass-card--1 { top: 8%; right: 15%; }
+    .glass-card--2 { top: 22%; right: 42%; }
+    .glass-card--3 { top: 44%; right: 12%; }
+    .glass-card--4 { top: 60%; right: 38%; }
+
+    .experience__content {
+        padding-top: 160px;
+        gap: 80px;
+    }
+
+    .experience__title {
+        font-size: 56px;
+    }
+
+    .experience__details {
+        gap: 50px;
+    }
+
+    .experience__detail {
+        width: 200px;
+    }
+
+    .site-footer {
+        padding: 80px 40px 60px;
+    }
+
+    .site-footer__columns {
+        gap: 80px;
+    }
+
+    .site-footer__col {
+        min-width: 110px;
+    }
+}
+
+/* ── Tablet portrait (768px and below) ── */
+@media (max-width: 768px) {
+    .loader__video {
+        width: 400px;
+    }
+
+    .loader__percent {
+        font-size: 32px;
+        bottom: 50px;
+    }
+
+    .nav-gradient-bottom {
+        height: 140px;
+    }
+
+    .hero {
+        height: 650vh;
+    }
+
+    .hero__intro {
+        font-size: 32px;
+        width: 88%;
+    }
+
+    .hero__heading {
+        font-size: 56px;
+    }
+
+    .hero__body {
+        font-size: 16px;
+    }
+
+    .hero__text {
+        width: 88%;
+    }
+
+    .hero__shuffle {
+        width: 240px;
+        height: 240px;
+    }
+
+    .installations {
+        height: 220vh;
+    }
+
+    .installations__sticky {
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 80px;
+    }
+
+    .installations__info {
+        width: 85%;
+        padding-left: 32px;
+        padding-right: 32px;
+        margin-bottom: 40px;
+    }
+
+    .installations__heading {
+        font-size: 40px;
+    }
+
+    .installations__subheading {
+        font-size: 12px;
+    }
+
+    .installations__body {
+        font-size: 13px;
+    }
+
+    .installations__cards {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        padding: 0 32px;
+    }
+
+    .glass-card {
+        position: relative;
+        top: auto !important;
+        right: auto !important;
+        width: 100%;
+        border-radius: 14px;
+    }
+
+    .glass-card.is-active {
+        z-index: 100;
+    }
+
+    .glass-card__image {
+        border-radius: 14px;
+    }
+
+    .glass-card__overlay {
+        border-radius: 4px;
+    }
+
+    .experience__content {
+        padding-top: 140px;
+        gap: 60px;
+    }
+
+    .experience__title {
+        font-size: 44px;
+    }
+
+    .experience__details {
+        gap: 36px;
+    }
+
+    .experience__detail {
+        width: 180px;
+    }
+
+    .experience__detail-label {
+        font-size: 12px;
+    }
+
+    .experience__detail-value {
+        font-size: 13px;
+    }
+
+    .site-footer {
+        padding: 60px 32px 50px;
+    }
+
+    .site-footer__columns {
+        gap: 48px;
+    }
+
+    .site-footer__col {
+        min-width: 90px;
+    }
+
+    .site-footer__logo img {
+        height: 60px;
+    }
+}
+
+/* ── Mobile (480px and below) ── */
+@media (max-width: 480px) {
+    .loader__video {
+        width: 280px;
+    }
+
+    .loader__percent {
+        font-size: 28px;
+        bottom: 40px;
+    }
+
+    .nav-gradient {
+        height: 500px;
+    }
+
+    .nav-gradient-bottom {
+        height: 500px;
+    }
+
+    .hero {
+        height: 550vh;
+    }
+
+    .hero__intro {
+        font-size: 20px;
+        width: 88%;
+        line-height: 1.4;
+    }
+
+    .hero__heading {
+        font-size: 32px;
+        white-space: normal;
+    }
+
+    .hero__body {
+        font-size: 16px;
+        line-height: 1.4;
+        max-width: 260px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero__text {
+        width: 92%;
+    }
+
+    .hero__shuffle {
+        width: 180px;
+        height: 180px;
+    }
+
+    .installations {
+        height: 200vh;
+    }
+
+    .installations__sticky {
+        padding-top: 70px;
+        flex-direction: column;
+    }
+
+    .installations__cards {
+        order: 1;
+    }
+
+    .installations__info {
+        order: 2;
+        width: 92%;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-bottom: 20px;
+        margin-top: 40px;
+    }
+
+    .installations__heading {
+        font-size: 28px;
+        margin-bottom: 16px;
+    }
+
+    .installations__subheading {
+        font-size: 10px;
+        margin-bottom: 10px;
+    }
+
+    .installations__body {
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .installations__cards {
+        gap: 8px;
+        padding: 0 20px;
+    }
+
+    .glass-card {
+        border-radius: 10px;
+    }
+
+    .glass-card.is-active {
+        z-index: 100;
+    }
+
+    .glass-card__image {
+        border-radius: 10px;
+    }
+
+    .glass-card__title {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .glass-card__desc {
+        font-size: 7px;
+        line-height: 1.5;
+    }
+
+    .glass-card__overlay {
+        inset: 5px;
+        padding: 5px;
+        border-radius: 3px;
+    }
+
+    .experience {
+        height: 110vh;
+    }
+
+    .experience__content {
+        padding: 40px 20px;
+        padding-top: 280px;
+        gap: 120px;
+    }
+
+    .experience__title {
+        font-size: 32px;
+    }
+
+    .experience__details {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+    }
+
+    .experience__detail-value {
+        font-size: 20px;
+    }
+
+    .experience__detail {
+        width: auto;
+    }
+
+    .experience__detail-label {
+        font-size: 11px;
+    }
+
+    .site-footer {
+        padding: 50px 24px 40px 72px;
+    }
+
+    .site-footer__columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px 24px;
+    }
+
+    .site-footer__logo {
+        grid-column: 1 / -1;
+        text-align: center;
+        order: 10;
+        margin-top: 24px;
+        margin-left: -24px;
+    }
+
+    .site-footer__logo img {
+        height: 56px;
+        margin: 0 auto;
+    }
+
+    .site-footer__col {
+        min-width: 0;
+    }
+
+    .site-footer__col h4 {
+        font-size: 11px;
+    }
+
+    .site-footer__col p,
+    .site-footer__col a {
+        font-size: 10px;
+    }
+
+    .site-footer__copyright {
+        font-size: 9px;
+        text-align: center;
+        margin-left: -48px;
+    }
+}
