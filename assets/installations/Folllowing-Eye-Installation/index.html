@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eye Tracking Installation</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #scene {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Hidden webcam feed */
+    #webcam {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      width: 1px;
+      height: 1px;
+    }
+
+    .eye-pair {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .eye-unit {
+      position: relative;
+      width: 50vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .eye-socket {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .eye-pupil {
+      position: absolute;
+      width: 70%;
+      height: 70%;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      user-select: none;
+      transform: translate(0px, 0px) scale(1);
+      transition: none;
+      will-change: transform;
+    }
+
+    /* Status overlay */
+    #status {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.18);
+      text-transform: uppercase;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+  </style>
+</head>
+<body>
+
+<div id="scene">
+  <video id="webcam" playsinline autoplay muted></video>
+
+  <div class="eye-pair">
+
+    <!-- Left eye -->
+    <div class="eye-unit" id="eye-left" style="transform: rotate(3deg);">
+      <img class="eye-pupil" id="pupil-left" src="pupil.png" alt="" draggable="false" />
+      <img class="eye-socket" src="eye-socket.png" alt="" draggable="false" style="transform: scaleX(-1);" />
+    </div>
+
+    <!-- Right eye -->
+    <div class="eye-unit" id="eye-right" style="transform: rotate(-3deg);">
+      <img class="eye-pupil" id="pupil-right" src="pupil.png" alt="" draggable="false" />
+      <img class="eye-socket" src="eye-socket.png" alt="" draggable="false" />
+    </div>
+
+  </div>
+</div>
+
+<div id="status">Initialising camera...</div>
+
+<!-- MediaPipe Face Mesh -->
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+
+<script>
+  const videoEl = document.getElementById('webcam');
+  const statusEl = document.getElementById('status');
+  const pupils = [
+    document.getElementById('pupil-left'),
+    document.getElementById('pupil-right')
+  ];
+
+  // ── Movement state ──
+  let targetX = 0, targetY = 0;
+  let currentX = 0, currentY = 0;
+
+  // ── Pupil scale state ──
+  let targetScale = 1.0;
+  let currentScale = 1.0;
+
+  const MAX_RADIUS = 80;
+  const SCALE_MIN = 0.35;  // close up → pinprick constriction
+  const SCALE_MAX = 1.7;   // far away → wide dilated
+  const SCALE_LERP = 0.035; // slow, organic scale changes
+
+  // ── Tracking state ──
+  let faceDetected = false;
+  let faceJustDetected = false;   // true on the frame face first appears
+  let faceWasDetected = false;    // previous frame state
+  let huntingTimer = 0;           // countdown for the "noticing" delay
+  const HUNTING_DURATION = 250;   // ms of hunting hesitation (shorter, snappier)
+
+  // ── Lerp factors ──
+  const LERP_IDLE = 0.06;        // brisker drift
+  const LERP_TRACKING = 0.14;    // responsive tracking — less delay
+  const LERP_DART = 0.45;        // snappy dart
+
+  let activeLerp = LERP_IDLE;
+
+  // ── Idle behaviour state ──
+  let idleTargetX = 0, idleTargetY = 0;
+  let nextDriftTime = 0;
+  let nextDartTime = 0;
+  let isDarting = false;
+  let dartSettleFrames = 0;
+
+  // ── Micro-tremor state (constant nervous jitter) ──
+  let tremorX = 0, tremorY = 0;
+  let tremorPhase = Math.random() * Math.PI * 2;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  // ── Random helpers ──
+  function rand(min, max) { return Math.random() * (max - min) + min; }
+
+  function scheduleNextDrift() {
+    nextDriftTime = performance.now() + rand(600, 2000); // much more frequent
+    const angle = rand(0, Math.PI * 2);
+    const radius = rand(25, MAX_RADIUS * 0.8); // bigger sweep
+    idleTargetX = Math.cos(angle) * radius;
+    idleTargetY = Math.sin(angle) * radius;
+  }
+
+  function scheduleNextDart() {
+    nextDartTime = performance.now() + rand(1200, 4000); // darts more often
+  }
+
+  function triggerDart() {
+    isDarting = true;
+    dartSettleFrames = 8; // shorter hold — snappier
+    const angle = rand(0, Math.PI * 2);
+    const radius = rand(40, MAX_RADIUS * 0.95); // bigger, more dramatic
+    idleTargetX = Math.cos(angle) * radius;
+    idleTargetY = Math.sin(angle) * radius;
+    scheduleNextDart();
+  }
+
+  // Initialise idle timers
+  scheduleNextDrift();
+  scheduleNextDart();
+
+  // ── Estimate distance from face size ──
+  // Uses the width between outer eye corners (landmarks 33 & 263)
+  // as a proxy for how close someone is to the camera.
+  // Returns 0.0 (very close) → 1.0 (far away)
+  function estimateDistance(landmarks) {
+    const leftEye = landmarks[33];
+    const rightEye = landmarks[263];
+    const eyeWidth = Math.abs(rightEye.x - leftEye.x);
+
+    // Typical range: ~0.08 (far) to ~0.35 (very close)
+    const minW = 0.08;
+    const maxW = 0.35;
+    const clamped = Math.max(minW, Math.min(maxW, eyeWidth));
+    const normalised = (clamped - minW) / (maxW - minW); // 0=far, 1=close
+
+    return 1.0 - normalised; // invert: 0=close, 1=far
+  }
+
+  // ── MediaPipe results callback ──
+  function onResults(results) {
+    if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+      const wasIdle = !faceDetected;
+      faceDetected = true;
+      statusEl.style.opacity = '0';
+
+      // Detect the moment face first appears
+      if (wasIdle) {
+        faceJustDetected = true;
+        huntingTimer = performance.now() + HUNTING_DURATION;
+      }
+
+      const landmarks = results.multiFaceLandmarks[0];
+      const nose = landmarks[1];
+
+      // ── Position tracking ──
+      const normX = 1 - nose.x;
+      const normY = nose.y;
+
+      const offsetX = (normX - 0.5) * 2 * MAX_RADIUS;
+      const offsetY = (normY - 0.5) * 2 * MAX_RADIUS;
+
+      const dist = Math.sqrt(offsetX * offsetX + offsetY * offsetY);
+      if (dist > MAX_RADIUS) {
+        const scale = MAX_RADIUS / dist;
+        targetX = offsetX * scale;
+        targetY = offsetY * scale;
+      } else {
+        targetX = offsetX;
+        targetY = offsetY;
+      }
+
+      // ── Distance-based pupil scale ──
+      const distanceFactor = estimateDistance(landmarks); // 0=close, 1=far
+      targetScale = SCALE_MIN + distanceFactor * (SCALE_MAX - SCALE_MIN);
+
+    } else {
+      faceDetected = false;
+      faceJustDetected = false;
+      statusEl.style.opacity = '1';
+      statusEl.textContent = 'No face detected';
+
+      // Pupils dilate back to neutral when idle
+      targetScale = 1.0;
+    }
+
+    faceWasDetected = faceDetected;
+  }
+
+  // ── Animation loop ──
+  function animate() {
+    requestAnimationFrame(animate);
+    const now = performance.now();
+
+    if (faceDetected) {
+      // ── TRACKING MODE ──
+
+      // During hunting phase, keep eyes near their current position
+      // with only a tiny drift toward target — the "noticing" pause
+      if (now < huntingTimer) {
+        activeLerp = 0.015; // slow creep — deliberate hesitation
+      } else {
+        faceJustDetected = false;
+        activeLerp = LERP_TRACKING;
+      }
+
+    } else {
+      // ── IDLE MODE — alive, searching ──
+
+      // Slow drift
+      if (now > nextDriftTime) {
+        scheduleNextDrift();
+      }
+
+      // Occasional quick dart
+      if (now > nextDartTime) {
+        triggerDart();
+      }
+
+      // Set target from idle wander
+      targetX = idleTargetX;
+      targetY = idleTargetY;
+
+      // Subtle idle pupil pulsing — breathing effect
+      targetScale = 1.0 + Math.sin(now * 0.0015) * 0.08;
+
+      if (isDarting) {
+        activeLerp = LERP_DART;
+        dartSettleFrames--;
+        if (dartSettleFrames <= 0) {
+          isDarting = false;
+        }
+      } else {
+        activeLerp = LERP_IDLE;
+      }
+    }
+
+    // ── Micro-tremor (idle only — nervous jitter) ──
+    if (!faceDetected) {
+      tremorPhase += 0.15;
+      tremorX = Math.sin(tremorPhase * 3.7) * 1.8 + Math.cos(tremorPhase * 7.3) * 0.9;
+      tremorY = Math.cos(tremorPhase * 2.9) * 1.5 + Math.sin(tremorPhase * 5.1) * 0.7;
+    } else {
+      tremorX = lerp(tremorX, 0, 0.15);
+      tremorY = lerp(tremorY, 0, 0.15);
+    }
+
+    // ── Interpolate position ──
+    currentX = lerp(currentX, targetX, activeLerp);
+    currentY = lerp(currentY, targetY, activeLerp);
+
+    // ── Interpolate pupil scale ──
+    currentScale = lerp(currentScale, targetScale, SCALE_LERP);
+
+    // ── Apply transforms (add tremor on top) ──
+    const finalX = currentX + tremorX;
+    const finalY = currentY + tremorY;
+    const transform = `translate(${finalX.toFixed(2)}px, ${finalY.toFixed(2)}px) scale(${currentScale.toFixed(4)})`;
+    pupils[0].style.transform = transform;
+    pupils[1].style.transform = transform;
+  }
+
+  // ── Initialisation ──
+  async function init() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user', width: 640, height: 480 }
+      });
+      videoEl.srcObject = stream;
+      statusEl.textContent = 'Loading face model...';
+    } catch (err) {
+      statusEl.textContent = 'Camera access denied';
+      statusEl.style.opacity = '1';
+      return;
+    }
+
+    const faceMesh = new FaceMesh({
+      locateFile: (file) =>
+        `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+    });
+
+    faceMesh.setOptions({
+      maxNumFaces: 1,
+      refineLandmarks: false,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5
+    });
+
+    faceMesh.onResults(onResults);
+
+    const camera = new Camera(videoEl, {
+      onFrame: async () => {
+        await faceMesh.send({ image: videoEl });
+      },
+      width: 640,
+      height: 480
+    });
+
+    camera.start().then(() => {
+      statusEl.textContent = 'Searching for face...';
+    });
+
+    animate();
+  }
+
+  init();
+</script>
+
+</body>
+</html>
