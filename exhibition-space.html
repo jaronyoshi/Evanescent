@@ -3,26 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EVANESCENT — Info</title>
+    <title>EVANESCENT — Exhibition Space</title>
     <style>
         /* ── Fonts ── */
         @font-face {
             font-family: 'Neue Montreal';
             src: url('assets/fonts/Neue Montreal/NeueMontreal-Regular.otf') format('opentype');
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        @font-face {
-            font-family: 'DaVinci';
-            src: url('assets/fonts/DaVinci-Trial/TRJNDaVinci-Italic-Trial.otf') format('opentype');
-            font-weight: 400;
-            font-style: italic;
-        }
-
-        @font-face {
-            font-family: 'DaVinci';
-            src: url('assets/fonts/DaVinci-Trial/TRJNDaVinci-Regular-Trial.otf') format('opentype');
             font-weight: 400;
             font-style: normal;
         }
@@ -139,65 +125,34 @@
             transform: translateY(-10px);
         }
 
-        /* ── Hero video ── */
-        .info-hero {
+        /* ── Enter button ── */
+        .enter-btn {
             position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .info-hero__video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* ── Bottom info bar ── */
-        .info-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(
-                to top,
-                rgba(0,0,0,1) 0%,
-                rgba(0,0,0,0) 100%
-            );
-            padding: 50px 40px;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 50;
             opacity: 0;
         }
 
-        .info-bar__details {
-            display: flex;
-            justify-content: center;
-            gap: 80px;
-        }
-
-        .info-bar__detail {
-            text-align: center;
-            width: 250px;
-            white-space: nowrap;
-        }
-
-        .info-bar__label {
-            font-family: 'Neue Montreal', sans-serif;
-            font-weight: 400;
-            font-size: 14px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            color: rgba(255,255,255,0.7);
-        }
-
-        .info-bar__value {
-            font-family: 'Neue Montreal', sans-serif;
-            font-weight: 400;
-            font-size: 15px;
+        .enter-btn a {
+            display: inline-block;
             color: #fff;
+            text-decoration: none;
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 14px 32px;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 30px;
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .enter-btn a:hover {
+            border-color: #fff;
+            background: rgba(255,255,255,0.08);
         }
 
         /* ── Tablet (1024px and below) ── */
@@ -208,18 +163,6 @@
 
             .nav-gradient {
                 height: 160px;
-            }
-
-            .info-bar {
-                padding: 40px 32px;
-            }
-
-            .info-bar__details {
-                gap: 50px;
-            }
-
-            .info-bar__detail {
-                width: 200px;
             }
         }
 
@@ -239,26 +182,6 @@
 
             .nav-gradient {
                 height: 140px;
-            }
-
-            .info-bar {
-                padding: 36px 24px;
-            }
-
-            .info-bar__details {
-                gap: 36px;
-            }
-
-            .info-bar__detail {
-                width: 180px;
-            }
-
-            .info-bar__label {
-                font-size: 12px;
-            }
-
-            .info-bar__value {
-                font-size: 13px;
             }
         }
 
@@ -343,28 +266,13 @@
                 display: block;
             }
 
-            .info-hero__video {
-                object-fit: contain;
+            .enter-btn {
+                bottom: 40px;
             }
 
-            .info-bar {
-                padding: 28px 16px;
-            }
-
-            .info-bar__details {
-                gap: 20px;
-            }
-
-            .info-bar__detail {
-                width: auto;
-            }
-
-            .info-bar__label {
+            .enter-btn a {
                 font-size: 11px;
-            }
-
-            .info-bar__value {
-                font-size: 12px;
+                padding: 12px 28px;
             }
         }
     </style>
@@ -396,36 +304,9 @@
         <a href="info.html">INFO</a>
     </div>
 
-    <!-- Hero video -->
-    <div class="info-hero">
-        <video 
-            class="info-hero__video" 
-            autoplay 
-            muted 
-            loop 
-            playsinline 
-            preload="auto"
-        >
-            <source src="assets/videos/evanescent-video-showreel.mp4" type="video/mp4">
-        </video>
-    </div>
-
-    <!-- Bottom info bar -->
-    <div class="info-bar">
-        <div class="info-bar__details">
-            <div class="info-bar__detail">
-                <p class="info-bar__label">Location</p>
-                <p class="info-bar__value">Aotea Square | Auckland</p>
-            </div>
-            <div class="info-bar__detail">
-                <p class="info-bar__label">Time</p>
-                <p class="info-bar__value">18–31 April</p>
-            </div>
-            <div class="info-bar__detail">
-                <p class="info-bar__label">Entry</p>
-                <p class="info-bar__value">Free</p>
-            </div>
-        </div>
+    <!-- Enter 3D Space button -->
+    <div class="enter-btn">
+        <a href="#">ENTER 3D SPACE</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
@@ -472,7 +353,7 @@
                             ease: 'power2.out'
                         });
 
-                        gsap.to('.info-bar', {
+                        gsap.to('.enter-btn', {
                             opacity: 1,
                             duration: 1.2,
                             ease: 'power2.out'
@@ -480,6 +361,7 @@
                     }
                 }, '<');
             });
+
             // Mobile menu toggle
             const hamburgerBtn = document.getElementById('hamburger-btn');
             const mobileMenu = document.getElementById('mobile-menu');
