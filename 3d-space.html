@@ -209,17 +209,6 @@
 <script type="module">
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
-
-/* ========================================================
-   SCREENS CONFIG
-   Map mesh names (from Blender) to embedded HTML pages.
-   The mesh will be replaced with an interactive iframe.
-   width/height are iframe pixel dimensions.
-   ======================================================== */
-const SCREENS = {
-  'installation1': { src: 'assets/installations/Following-Eye-Installation/index.html', width: 1024, height: 768 },
-};
 
 /* ========================================================
    INSTALLATIONS CONFIG
@@ -254,17 +243,6 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.2;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.body.appendChild(renderer.domElement);
-
-// ── CSS3D Renderer (layered on top of WebGL) ──────────
-const cssRenderer = new CSS3DRenderer();
-cssRenderer.setSize(window.innerWidth, window.innerHeight);
-cssRenderer.domElement.style.position = 'fixed';
-cssRenderer.domElement.style.top = '0';
-cssRenderer.domElement.style.left = '0';
-cssRenderer.domElement.style.pointerEvents = 'none';
-document.body.appendChild(cssRenderer.domElement);
-
-const cssScene = new THREE.Scene();
 
 // ── Scene ──────────────────────────────────────────────
 const scene = new THREE.Scene();
@@ -342,67 +320,6 @@ loader.load(
         cameraPresets[key] = { position, lookAt };
       }
 
-      // Create CSS3D screens for matching meshes
-      if (child.isMesh && SCREENS[child.name]) {
-        const cfg = SCREENS[child.name];
-
-        // Get world transform from the mesh
-        child.updateWorldMatrix(true, false);
-        const worldPos = new THREE.Vector3();
-        const worldQuat = new THREE.Quaternion();
-        const worldScale = new THREE.Vector3();
-        child.matrixWorld.decompose(worldPos, worldQuat, worldScale);
-
-        // Measure mesh size from its geometry bounding box
-        child.geometry.computeBoundingBox();
-        const bb = child.geometry.boundingBox;
-        const meshWidth = (bb.max.x - bb.min.x) * worldScale.x;
-        const meshHeight = (bb.max.y - bb.min.y) * worldScale.y;
-        const meshDepth = (bb.max.z - bb.min.z) * worldScale.z;
-
-        const debugEuler = new THREE.Euler().setFromQuaternion(worldQuat);
-        console.log('[SCREEN]', child.name, {
-          worldPos: { x: +worldPos.x.toFixed(4), y: +worldPos.y.toFixed(4), z: +worldPos.z.toFixed(4) },
-          worldRotDeg: { x: +(debugEuler.x * 180/Math.PI).toFixed(2), y: +(debugEuler.y * 180/Math.PI).toFixed(2), z: +(debugEuler.z * 180/Math.PI).toFixed(2) },
-          worldScale: { x: +worldScale.x.toFixed(4), y: +worldScale.y.toFixed(4), z: +worldScale.z.toFixed(4) },
-          bbSize: { width: +meshWidth.toFixed(4), height: +meshHeight.toFixed(4), depth: +meshDepth.toFixed(4) },
-          bbRaw: { min: bb.min.toArray().map(v => +v.toFixed(4)), max: bb.max.toArray().map(v => +v.toFixed(4)) },
-        });
-
-        // Create iframe
-        const iframe = document.createElement('iframe');
-        iframe.src = cfg.src;
-        iframe.style.width = cfg.width + 'px';
-        iframe.style.height = cfg.height + 'px';
-        iframe.style.border = 'none';
-        iframe.style.background = '#000';
-        iframe.style.pointerEvents = 'auto';
-
-        // Wrap in a div for CSS3DObject
-        const wrapper = document.createElement('div');
-        wrapper.style.width = cfg.width + 'px';
-        wrapper.style.height = cfg.height + 'px';
-        wrapper.style.overflow = 'hidden';
-        wrapper.appendChild(iframe);
-
-        const cssObj = new CSS3DObject(wrapper);
-        cssObj.position.copy(worldPos);
-        cssObj.quaternion.copy(worldQuat);
-        // DEBUG: rotate 90° on Y to test visibility
-        cssObj.rotateY(Math.PI / 2);
-
-        // Scale so iframe pixels map to the mesh's world-space size
-        const scaleX = meshWidth / cfg.width;
-        const scaleY = meshHeight / cfg.height;
-        cssObj.scale.set(scaleX, scaleY, 1);
-
-        cssScene.add(cssObj);
-
-        // Hide the original mesh so the iframe shows through
-        child.material = child.material.clone();
-        child.material.transparent = true;
-        child.material.opacity = 0;
-      }
     });
 
     // Start at CamA
@@ -570,7 +487,6 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  cssRenderer.setSize(window.innerWidth, window.innerHeight);
 });
 
 // ── Animation loop ─────────────────────────────────────
@@ -605,7 +521,6 @@ function animate() {
 
   updateCrosshair();
   renderer.render(scene, camera);
-  cssRenderer.render(cssScene, camera);
 }
 
 animate();
