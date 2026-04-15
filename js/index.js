@@ -200,9 +200,9 @@ gsap.to(".hero__intro", {
     }
 });
 
-// Gradual dark overlay
-gsap.to(".hero__overlay", {
-    opacity: 1,
+// Fade out the eye image to reveal body background
+gsap.to(".hero__image", {
+    opacity: 0,
     ease: "power2.in",
     scrollTrigger: {
         trigger: ".hero",
