@@ -30,8 +30,8 @@ let sceneMeshes = [];
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.2;
+renderer.toneMapping = THREE.NoToneMapping;
+renderer.toneMappingExposure = 1.0;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.body.appendChild(renderer.domElement);
 
@@ -39,13 +39,11 @@ document.body.appendChild(renderer.domElement);
 const scene = new THREE.Scene();
 window._scene = scene;
 scene.background = new THREE.Color(0x0a0a0a);
-scene.fog = new THREE.FogExp2(0x0a0a0a, 0.03);
+// Fog removed — was darkening distant objects
 
 // ── Lights ─────────────────────────────────────────────
+scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 2.5));
 scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-dirLight.position.set(5, 10, 7);
-scene.add(dirLight);
 
 // ── Camera ─────────────────────────────────────────────
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500);
@@ -100,7 +98,8 @@ loader.load(
       // Find camera presets (Blender cameras export as PerspectiveCamera)
       const camMatch = child.name.match(/^Cam([A-C])$/);
       if (camMatch && (child.isCamera || child.type === 'Object3D')) {
-        const key = camMatch[1];
+        const swapBC = { A: 'A', B: 'C', C: 'B' };
+        const key = swapBC[camMatch[1]];
         const position = child.position.clone();
 
         // Derive look-at from the Empty's quaternion
